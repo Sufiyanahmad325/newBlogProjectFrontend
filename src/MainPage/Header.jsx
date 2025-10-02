@@ -1,6 +1,9 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { BlogContext } from "../App";
 
-export default function Header({setOpenLoingForm}) {
+export default function Header() {
+  const {openLoingForm, setOpenLoingForm} = useContext(BlogContext)
   return (
     <header className="bg-white shadow-sm">
       <div className="container mx-auto px-16 py-4 flex items-center justify-between">
@@ -19,7 +22,7 @@ export default function Header({setOpenLoingForm}) {
             Home
           </Link>
           <Link
-            to="/blogs"
+            to="/all-blog"
             className="hover:text-black border-b-2 border-transparent hover:border-black"
           >
             All Blogs

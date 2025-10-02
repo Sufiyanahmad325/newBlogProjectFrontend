@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { BlogContext } from "../App";
 
-const LoginForm = ({ openLoingForm, setOpenLoingForm }) => {
+const LoginForm = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
+
+  const {setOpenLoingForm , openLoingForm} = useContext(BlogContext)
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
