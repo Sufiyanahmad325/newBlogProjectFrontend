@@ -13,7 +13,10 @@ function App() {
       <Header setOpenLoingForm={setOpenLoingForm} />
       <TwoBigCardBelowHader />
       <BlogCard />
-      
+      <LoginForm 
+        openLoingForm={openLoingForm} 
+        setOpenLoingForm={setOpenLoingForm} 
+      />
     </div>
   )
 }
