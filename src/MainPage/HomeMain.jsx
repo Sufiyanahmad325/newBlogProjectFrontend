@@ -8,7 +8,6 @@ function HomeMain() {
         <div>
             <TwoBigCardBelowHader />
             <BlogCards />
-            <LoginForm />
         </div>
     )
 }
