@@ -5,6 +5,8 @@ import App from './App.jsx'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import HomeMain from './MainPage/HomeMain.jsx'
 import AllBlog from './MainPage/AllBlog.jsx'
+import BlogCategories from './MainPage/BlogCategories.jsx'
+import ProfilePage from './MainPage/Profiles.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -13,6 +15,8 @@ createRoot(document.getElementById('root')).render(
         <Route path="/" element={<App />} >
           <Route index element={<HomeMain />} />
           <Route path='all-blog' element={<AllBlog />} />
+          <Route path='categories' element={<BlogCategories/>} />
+          <Route path='profile' element={<ProfilePage/>} />
         </Route>
       </Routes>
     </BrowserRouter>
