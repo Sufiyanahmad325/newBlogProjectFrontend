@@ -7,6 +7,7 @@ import HomeMain from './MainPage/HomeMain.jsx'
 import AllBlog from './MainPage/AllBlog.jsx'
 import BlogCategories from './MainPage/BlogCategories.jsx'
 import ProfilePage from './MainPage/Profiles.jsx'
+import ReadMore from './ReadMore.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -14,9 +15,10 @@ createRoot(document.getElementById('root')).render(
       <Routes>
         <Route path="/" element={<App />} >
           <Route index element={<HomeMain />} />
-          <Route path='all-blog' element={<AllBlog />} />
-          <Route path='categories' element={<BlogCategories/>} />
-          <Route path='profile' element={<ProfilePage/>} />
+          <Route path='/all-blog' element={<AllBlog />} />
+          <Route path='/categories' element={<BlogCategories/>} />
+          <Route path='/profile' element={<ProfilePage/>} />
+          <Route path='/readMore' element={<ReadMore/>} />
         </Route>
       </Routes>
     </BrowserRouter>
