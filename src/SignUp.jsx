@@ -1,8 +1,38 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import axios from 'axios'
 import { BlogContext } from "./App";
 
 export default function Signup() {
   const { signUp, setSignUp } = useContext(BlogContext);
+
+  const [fullName, setFullName] = useState('')
+    const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+
+    const handleSignUp = async () => {
+        if([fullName , username , email , password , confirmPassword].some(field=> field?.trim() === "")){
+            return alert("all fields are required")
+        }
+
+        if(password !== confirmPassword){
+            return alert("passwords do not match")
+        }
+
+        const res = await axios.post('http://localhost:8000/api/v1/users/register' , {
+            fullName,
+            username,
+            email,
+            password
+        })
+        alert(res.data.message)
+        console.log(res.data)
+        setSignUp(false)
+
+    }
+
+
   function handleSignUpCloseOption(){
     setSignUp(false)
   }
@@ -29,6 +59,8 @@ export default function Signup() {
           <div>
             <label className="block text-gray-700 mb-1">Full Name</label>
             <input
+            onChange={(e) => setFullName(e.target.value)}
+            value={fullName}
               type="text"
               placeholder="Enter your full name"
               className="w-full border border-gray-300 rounded-lg px-4 py-2 
@@ -40,6 +72,8 @@ export default function Signup() {
           <div>
             <label className="block text-gray-700 mb-1">Username</label>
             <input
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
               type="text"
               placeholder="Enter your username"
               className="w-full border border-gray-300 rounded-lg px-4 py-2 
@@ -51,6 +85,8 @@ export default function Signup() {
           <div>
             <label className="block text-gray-700 mb-1">Email</label>
             <input
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
               type="email"
               placeholder="Enter your email"
               className="w-full border border-gray-300 rounded-lg px-4 py-2 
@@ -62,6 +98,8 @@ export default function Signup() {
           <div>
             <label className="block text-gray-700 mb-1">Password</label>
             <input
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
               type="password"
               placeholder="Enter your password"
               className="w-full border border-gray-300 rounded-lg px-4 py-2 
@@ -73,7 +111,9 @@ export default function Signup() {
           <div>
             <label className="block text-gray-700 mb-1">Confirm Password</label>
             <input
-              type="password"
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            value={confirmPassword}
+              type="text"
               placeholder="Re-enter your password"
               className="w-full border border-gray-300 rounded-lg px-4 py-2 
               focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -82,6 +122,7 @@ export default function Signup() {
 
           {/* Submit Button */}
           <button
+          onClick={() => handleSignUp()}
             type="button"
             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
           >
