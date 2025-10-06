@@ -7,31 +7,31 @@ export default function ProfilePage() {
       id: 1,
       title: "Understanding React Context",
       description: "React Context provides a way to share values between components...",
-      image: "https://source.unsplash.com/400x250/?react",
+      image: "https://i.pravatar.cc/205",
     },
     {
       id: 2,
       title: "Mastering TailwindCSS",
       description: "Learn how to build modern and responsive UIs quickly...",
-      image: "https://source.unsplash.com/400x250/?coding",
+      image: "https://i.pravatar.cc/204",
     },
     {
       id: 3,
       title: "Node.js for Beginners",
       description: "A complete guide to getting started with backend development...",
-      image: "https://source.unsplash.com/400x250/?nodejs",
+      image: "https://i.pravatar.cc/203",
     },
     {
       id: 4,
       title: "Exploring MongoDB",
       description: "Learn about MongoDB and NoSQL databases in detail...",
-      image: "https://source.unsplash.com/400x250/?database",
+      image: "https://i.pravatar.cc/202",
     },
     {
       id: 5,
       title: "React vs Vue",
       description: "Comparing two popular frontend frameworks...",
-      image: "https://source.unsplash.com/400x250/?framework",
+      image: "https://i.pravatar.cc/201",
     },
   ];
 
@@ -117,71 +117,81 @@ export default function ProfilePage() {
 
 
       {
-        isAddBlogOpen && (
-          <div className="max-w-3xl mx-auto mt-10 p-8 rounded-xl shadow-lg bg-gray-100">
-            <h1 className="text-2xl font-bold mb-6 text-center">Add New Blog</h1>
+  isAddBlogOpen && (
+    <div className="max-w-3xl mx-auto mt-10 p-8 rounded-xl shadow-lg bg-gray-100 relative">
+      {/* ❌ Cut Button */}
+      <button
+        onClick={() => setisAddBlogOpen(false)}
+        className="absolute top-4 right-4 text-gray-600 hover:text-red-600 text-xl font-bold"
+        title="Close"
+      >
+        ✖
+      </button>
 
-            <form className="flex flex-col gap-5">
-              {/* Title */}
-              <div>
-                <label className="block font-medium mb-1">Title</label>
-                <input
-                  type="text"
-                  placeholder="Enter blog title"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+      <h1 className="text-2xl font-bold mb-6 text-center">Add New Blog</h1>
 
-              {/* Content */}
-              <div>
-                <label className="block font-medium mb-1">Content</label>
-                <textarea
-                  placeholder="Write your blog content..."
-                  rows="6"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                ></textarea>
-              </div>
+      <form className="flex flex-col gap-5">
+        {/* Title */}
+        <div>
+          <label className="block font-medium mb-1">Title</label>
+          <input
+            type="text"
+            placeholder="Enter blog title"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
-              {/* Category */}
-              <div>
-                <label className="block font-medium mb-1">Category</label>
-                <select className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option value="">-- Select Category --</option>
-                  <option>Technology</option>
-                  <option>Travel</option>
-                  <option>Food</option>
-                  <option>Lifestyle</option>
-                  <option>Fashion</option>
-                  <option>Health</option>
-                  <option>Science</option>
-                  <option>Art</option>
-                  <option>Books</option>
-                  <option>Movies</option>
-                  <option>Music</option>
-                </select>
-              </div>
+        {/* Content */}
+        <div>
+          <label className="block font-medium mb-1">Content</label>
+          <textarea
+            placeholder="Write your blog content..."
+            rows="6"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          ></textarea>
+        </div>
 
-              {/* Image Upload */}
-              <div>
-                <label className="block font-medium mb-1">Upload Image</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+        {/* Category */}
+        <div>
+          <label className="block font-medium mb-1">Category</label>
+          <select className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="">-- Select Category --</option>
+            <option>Technology</option>
+            <option>Travel</option>
+            <option>Food</option>
+            <option>Lifestyle</option>
+            <option>Fashion</option>
+            <option>Health</option>
+            <option>Science</option>
+            <option>Art</option>
+            <option>Books</option>
+            <option>Movies</option>
+            <option>Music</option>
+          </select>
+        </div>
 
-              {/* Submit Button */}
-              <button
-                type="button"
-                className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
-              >
-                Add Blog
-              </button>
-            </form>
-          </div>
-        )
-      }
+        {/* Image Upload */}
+        <div>
+          <label className="block font-medium mb-1">Upload Image</label>
+          <input
+            type="file"
+            accept="image/*"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        {/* Submit Button */}
+        <button
+          type="button"
+          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+        >
+          Add Blog
+        </button>
+      </form>
+    </div>
+  )
+}
+
     </div>
   );
 }
