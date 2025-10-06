@@ -1,12 +1,11 @@
 import React from 'react'
-import TwoBigCardBelowHader from './TwoBigCardBelowHader'
-import LoginForm from './LoginForm'
 import BlogCards from './BlogCard'
+import BelowHeaderSingleCard from './BelowHeaderSingleCard'
 
 function HomeMain() {
     return (
         <div>
-            <TwoBigCardBelowHader />
+            <BelowHeaderSingleCard />
             <BlogCards />
         </div>
     )
