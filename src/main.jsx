@@ -8,9 +8,12 @@ import AllBlog from './MainPage/AllBlog.jsx'
 import BlogCategories from './MainPage/BlogCategories.jsx'
 import ProfilePage from './MainPage/Profiles.jsx'
 import ReadMore from './ReadMore.jsx'
+import { CookiesProvider } from 'react-cookie'
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <CookiesProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} >
@@ -22,5 +25,6 @@ createRoot(document.getElementById('root')).render(
         </Route>
       </Routes>
     </BrowserRouter>
+    </CookiesProvider>
   </StrictMode>,
 )
