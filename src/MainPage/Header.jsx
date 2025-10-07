@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import { BlogContext } from "../App";
 
 export default function Header() {
-  const { openLoingForm, setOpenLoingForm } = useContext(BlogContext);
+  const { openLoingForm, setOpenLoingForm , userDetails ,handleLonginForm } = useContext(BlogContext);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -44,14 +46,14 @@ export default function Header() {
         {/* Profile + Login */}
         <div
           className="hidden md:flex items-center space-x-3 cursor-pointer"
-          onClick={() => setOpenLoingForm((prev) => !prev)}
+          onClick={() => handleLonginForm() }
         >
           <img
             src="https://i.pravatar.cc/306"
             alt="profile"
             className="w-10 h-10 rounded-full object-cover"
           />
-          <span className="text-gray-700 font-medium">Logged in</span>
+          <span className="text-gray-700 font-medium">{userDetails != null ? 'Logout' :'Logged in'}</span>
           <button className="text-gray-600 hover:text-black">🔒</button>
         </div>
 
