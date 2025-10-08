@@ -1,27 +1,65 @@
-import React, { useContext, useState } from "react";
+import React, { use, useContext, useState } from "react";
 import { BlogContext } from "../App";
+import axios from "axios";
+import { useCookies } from "react-cookie";
 
 const LoginForm = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
 
-  const {setOpenLoingForm , openLoingForm} = useContext(BlogContext)
+  const [cookies, setCookie, removeCookie] = useCookies(["accessToken"]);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Login Data:", formData);
-    // 👉 axios se backend ko data bhej sakte ho
-  };
+  const { setOpenLoingForm, openLoingForm, setSignUp, setUserDetails } = useContext(BlogContext)
+
+
+
+ // LoginForm.jsx
+
+const handleSubmit = async (e) => {
+  try {
+      e.preventDefault();
+      const res = await axios.post("http://localhost:8000/api/v1/users/login",
+          { email: email, password: password },
+          { withCredentials: true }
+      );
+      
+      if (res.status) {
+          console.log(res);
+          setOpenLoingForm(false);
+          
+        
+          const sevenDaysFromNow = new Date();
+          sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7); 
+          
+          setCookie("accessToken", res.data.data.token, { 
+              path: "/", 
+              sameSite: "lax", 
+              secure: false, 
+              expires: sevenDaysFromNow 
+          });
+          setUserDetails(res.data.data.user);
+          // -------------------------------------------------------------
+      }
+  } catch (error) {
+      alert(error.message);
+  }
+};
+
+
+
+  const hanleOpenSingup = () => {
+    setOpenLoingForm(false)
+    setSignUp(true)
+  }
 
   if (!openLoingForm) return null; // agar false ho to render hi mat karo
+  
 
   return (
     <div className="fixed inset-0 flex items-center justify-center  bg-opacity-50 z-50">
       <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md relative">
-        
+
         {/* Close Button */}
         <button
           onClick={() => setOpenLoingForm(false)}
@@ -43,8 +81,8 @@ const LoginForm = () => {
             <input
               type="email"
               name="email"
-              value={formData.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
               required
@@ -59,8 +97,8 @@ const LoginForm = () => {
             <input
               type="password"
               name="password"
-              value={formData.password}
-              onChange={handleChange}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
               required
@@ -89,9 +127,11 @@ const LoginForm = () => {
         {/* Signup Link */}
         <p className="text-center text-sm text-gray-600 mt-6">
           Don’t have an account?{" "}
-          <a href="#" className="text-black font-medium hover:underline">
+          <span
+            onClick={hanleOpenSingup}
+            className="text-black font-medium hover:underline">
             Sign Up
-          </a>
+          </span>
         </p>
       </div>
     </div>
