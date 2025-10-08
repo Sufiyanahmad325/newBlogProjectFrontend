@@ -15,12 +15,12 @@ function App() {
   const [signUp, setSignUp] = useState(false)
   const [userDetails, setUserDetails] = useState(null)
   const [allBlogPost, setAllBlogPost] = useState(null)
+  const [userAllBlog, setUserAllBlog] = useState()
 
 
   // cookies
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken'])
-  const accessToken = cookies.accessToken || null           // ye acessToken ka kaha ja rha hai 
-  console.log(accessToken)       
+  const accessToken = cookies.accessToken
 
   async function handleLonginForm() {
 
@@ -35,6 +35,7 @@ function App() {
 
         if (res.data.success) {
           setUserDetails(null)
+          setUserAllBlog(null)
           removeCookie("accessToken", { path: "/" })
           alert(res.data.message)
         }
@@ -47,36 +48,69 @@ function App() {
   }
 
 
-  useEffect(() => {
-    if (!accessToken) return  // only skip if token is missing
-  
-    const fetchUserData = async () => {
-      try {
-        const res = await axios.get('http://localhost:8000/api/v1/users/current-user', {
-          headers: { 'Authorization': `Bearer ${accessToken}` },
-          withCredentials: true,
-        })
-  
-        if (res.data.success) {
-          setUserDetails(res.data.data.user)
-          setAllBlogPost(res.data.data.userBlog || [])
-          console.log(res.data.data.userBlog)
-        }
-      } catch (err) {
-        console.log(err)
-        // Agar token expire ho gaya ho to hata do
-        removeCookie("accessToken", { path: "/" })
+
+  const uplodeBlog = async (title, content, category, imageAdress) => {
+    const res = await axios.post("http://localhost:8000/api/v1/users/uploadBlog",
+      { title, content, category, blogImage: imageAdress },
+      {
+        headers: { 'Authorization': `Bearer ${accessToken}` },
+        withCredentials: true
       }
+    )
+
+    if (res.data.success) {
+      // setAllBlogPost([...allBlogPost, res.data.data])
+      console.log(res.data.data)
+      alert("Blog uploded successfully")
+      return res
     }
+
+
+    else {
+      alert("Failed to uplode blog")
+    }
+
+  }
+
   
-    fetchUserData()
-  }, [])
-  
+
+ useEffect(() => {
+  const fetchUserData = async () => {
+    try {
+      const res = await axios.get('http://localhost:8000/api/v1/users/current-user', {
+        withCredentials: true, 
+      });
+
+      if (res.data.success) {
+        if(userDetails == null ){
+          setUserDetails(res.data.data.user);
+        }
+        setAllBlogPost(res.data.data.userBlog || []);
+        console.log("✅ User restored from cookie:", res.data.data.user);
+      }
+    } catch (err) {
+      console.log("Error fetching user:", err);
+      removeCookie("accessToken", { path: "/" });
+    }
+  };
+
+  fetchUserData();
+}, [userDetails , accessToken]); // 👈 sirf ek baar page load hone par chale
+
+
+
+
+useEffect(() => {
+  const userBlog = allBlogPost?.filter((blog) => blog.author === userDetails?._id) || [];
+  setUserAllBlog(userBlog)
+  console.log(userBlog)
+}, [userDetails, allBlogPost]);
+
 
 
 
   return (
-    <BlogContext.Provider value={{ openLoingForm, setOpenLoingForm, setSignUp, signUp, userDetails, setUserDetails, handleLonginForm, allBlogPost }}>
+    <BlogContext.Provider value={{ openLoingForm, setOpenLoingForm, setSignUp, signUp, userDetails, setUserDetails, handleLonginForm, allBlogPost, uplodeBlog ,userAllBlog  , setUserAllBlog}}>
       <div className="">
         <Header />
         <Outlet />
