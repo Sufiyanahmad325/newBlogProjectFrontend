@@ -1,53 +1,64 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { BlogContext } from "../App";
+
+
+
 
 export default function ProfilePage() {
+
+  // form state
+  const [title, settitle] = useState('')
+  const [content, setContent] = useState('')
+  const [category, setCategory] = useState('')
+  const [imageAdress, setImage] = useState(null)
+
+  // access of context
+  const { uplodeBlog } = useContext(BlogContext)
+
+  // Add Blog Form open/close state
   const [isAddBlogOpen, setisAddBlogOpen] = useState(false)
-  const blogs = [
-    {
-      id: 1,
-      title: "Understanding React Context",
-      description: "React Context provides a way to share values between components...",
-      image: "https://i.pravatar.cc/205",
-    },
-    {
-      id: 2,
-      title: "Mastering TailwindCSS",
-      description: "Learn how to build modern and responsive UIs quickly...",
-      image: "https://i.pravatar.cc/204",
-    },
-    {
-      id: 3,
-      title: "Node.js for Beginners",
-      description: "A complete guide to getting started with backend development...",
-      image: "https://i.pravatar.cc/203",
-    },
-    {
-      id: 4,
-      title: "Exploring MongoDB",
-      description: "Learn about MongoDB and NoSQL databases in detail...",
-      image: "https://i.pravatar.cc/202",
-    },
-    {
-      id: 5,
-      title: "React vs Vue",
-      description: "Comparing two popular frontend frameworks...",
-      image: "https://i.pravatar.cc/201",
-    },
-  ];
+
+
+
+
+
 
   const handleAddBlogOpenOption = () => {
     setisAddBlogOpen(!isAddBlogOpen);
-  
+
     //  Thoda wait kro Add Blog form render hone ke liye
     setTimeout(() => {
       window.scrollTo({
-        top: document.body.scrollHeight, 
-        behavior: "smooth", 
+        top: document.body.scrollHeight,
+        behavior: "smooth",
       });
     }, 200); // 0.2 second ka wait
   };
-  
-  
+
+
+
+  const handleAddBlog = () => {
+
+    if (!title || !content || !category || !imageAdress) {
+      alert("Please fill all the fields")
+      return
+    }
+
+    uplodeBlog(title, content, category, imageAdress)
+    .then((res) => {
+      if(res.data.success)
+      settitle('')
+      setContent('')
+      setCategory('')
+      setImage(null)
+    })
+
+    
+  }
+
+
+
+
 
 
   return (
@@ -117,80 +128,89 @@ export default function ProfilePage() {
 
 
       {
-  isAddBlogOpen && (
-    <div className="max-w-3xl mx-auto mt-10 p-8 rounded-xl shadow-lg bg-gray-100 relative">
-      {/* ❌ Cut Button */}
-      <button
-        onClick={() => setisAddBlogOpen(false)}
-        className="absolute top-4 right-4 text-gray-600 hover:text-red-600 text-xl font-bold"
-        title="Close"
-      >
-        ✖
-      </button>
+        isAddBlogOpen && (
+          <div className="max-w-3xl mx-auto mt-10 p-8 rounded-xl shadow-lg bg-gray-100 relative">
+            {/* ❌ Cut Button */}
+            <button
+              onClick={() => setisAddBlogOpen(false)}
+              className="absolute top-4 right-4 text-gray-600 hover:text-red-600 text-xl font-bold"
+              title="Close"
+            >
+              ✖
+            </button>
 
-      <h1 className="text-2xl font-bold mb-6 text-center">Add New Blog</h1>
+            <h1 className="text-2xl font-bold mb-6 text-center">Add New Blog</h1>
 
-      <form className="flex flex-col gap-5">
-        {/* Title */}
-        <div>
-          <label className="block font-medium mb-1">Title</label>
-          <input
-            type="text"
-            placeholder="Enter blog title"
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+            <form className="flex flex-col gap-5">
+              {/* Title */}
+              <div>
+                <label className="block font-medium mb-1">Title</label>
+                <input
+                  onChange={(e) => settitle(e.target.value)}
+                  value={title}
+                  type="text"
+                  placeholder="Enter blog title"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
 
-        {/* Content */}
-        <div>
-          <label className="block font-medium mb-1">Content</label>
-          <textarea
-            placeholder="Write your blog content..."
-            rows="6"
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          ></textarea>
-        </div>
+              {/* Content */}
+              <div>
+                <label className="block font-medium mb-1">Content</label>
+                <textarea
+                  onChange={(e) => setContent(e.target.value)}
+                  value={content}
+                  placeholder="Write your blog content..."
+                  rows="6"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                ></textarea>
+              </div>
 
-        {/* Category */}
-        <div>
-          <label className="block font-medium mb-1">Category</label>
-          <select className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option value="">-- Select Category --</option>
-            <option>Technology</option>
-            <option>Travel</option>
-            <option>Food</option>
-            <option>Lifestyle</option>
-            <option>Fashion</option>
-            <option>Health</option>
-            <option>Science</option>
-            <option>Art</option>
-            <option>Books</option>
-            <option>Movies</option>
-            <option>Music</option>
-          </select>
-        </div>
+              {/* Category */}
+              <div>
+                <label className="block font-medium mb-1">Category</label>
+                <select
+                  onChange={(e) => setCategory(e.target.value)}
+                  value={category}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">-- Select Category --</option>
+                  <option value="technology">Technology</option>
+                  <option value="travel">Travel</option>
+                  <option value="food">Food</option>
+                  <option value="lifestyle">Lifestyle</option>
+                  <option value="fashion">Fashion</option>
+                  <option value="health">Health</option>
+                  <option value="science">Science</option>
+                  <option value="art">Art</option>
+                  <option value="books">Books</option>
+                  <option value="movies">Movies</option>
+                  <option value="music">Music</option>
+                </select>
+              </div>
+              {/* Image Upload */}
+              <div>
+                <label className="block font-medium mb-1">Upload Image</label>
+                <input
+                  onChange={(e) => setImage(e.target.files[0])}
+                  type="file"
+                  accept="image/*"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
 
-        {/* Image Upload */}
-        <div>
-          <label className="block font-medium mb-1">Upload Image</label>
-          <input
-            type="file"
-            accept="image/*"
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
-        {/* Submit Button */}
-        <button
-          type="button"
-          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
-        >
-          Add Blog
-        </button>
-      </form>
-    </div>
-  )
-}
+              {/* Submit Button */}
+              <button
+                onClick={() => handleAddBlog()}
+                type="button"
+                className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+              >
+                Add Blog
+              </button>
+            </form>
+          </div>
+        )
+      }
 
     </div>
   );
