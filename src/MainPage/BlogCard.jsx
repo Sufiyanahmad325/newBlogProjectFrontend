@@ -3,7 +3,7 @@ import React, { use, useContext, useEffect, useState } from "react";
 import { BlogContext } from "../App";
 
 const BlogCards = () => {
-  const { userAllBlog} = useContext(BlogContext)
+  const { userAllBlog } = useContext(BlogContext)
 
   
  
@@ -28,7 +28,7 @@ const BlogCards = () => {
                Date • {new Date().toLocaleDateString()}
             </p>
             <p className="text-gray-600 text-sm mt-2">
-              {blog.content || 'content Not Availble' }
+              {blog.content.length > 100 ? blog.content.slice(0 , 100) : blog.content || 'content Not Availble' }
             </p>
           </div>
         ))}
