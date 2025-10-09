@@ -1,40 +1,27 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { BlogContext } from "../App";
 
-const blogs = [
-  {
-    id: 1,
-    title: "Designing with Simplicity",
-    author: "Sufiyan Ahmad",
-    description:
-      "Learn how simplicity can elevate your UI/UX design and create better user experiences for your audience.",
-    image: "https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg",
-  },
-  {
-    id: 2,
-    title: "Exploring React Hooks",
-    author: "Sahil Ali",
-    description:
-      "React Hooks are powerful features that simplify component logic. Let’s understand useState and useEffect together.",
-    image: "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg",
-  },
-  {
-    id: 3,
-    title: "The Power of Clean Code",
-    author: "Aisha Khan",
-    description:
-      "Clean code isn’t just about looks — it’s about efficiency, readability, and maintainability in every project.",
-    image: "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg",
-  },
-];
 
 const AllBlog = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  
+  const [searchBlog , setSearchBlog ] = useState([])
 
-  const filteredBlogs = blogs.filter(
-    (blog) =>
-      blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      blog.author.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+    const {allBlogPost} = useContext(BlogContext)
+
+    useEffect(()=>{
+      if(allBlogPost && searchTerm){
+        const filteredBlogs = allBlogPost.filter(blog=>{
+          return blog.title.toLowerCase().includes(searchTerm.toLowerCase())
+        })
+        setSearchBlog(filteredBlogs)
+      }else{
+        setSearchBlog(allBlogPost)
+      }
+    },[searchTerm , allBlogPost])
+
+
+
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-12 px-4">
@@ -55,15 +42,15 @@ const AllBlog = () => {
       </div>
 
       {/* Blog Cards */}
-      {filteredBlogs.length > 0 ? (
+      {searchBlog?.length > 0 ? (
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredBlogs.map((blog) => (
+          {searchBlog?.map((blog) => (
             <div
               key={blog.id}
               className="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden hover:-translate-y-3"
             >
               <img
-                src={blog.image}
+                src={blog.blogImage}
                 alt={blog.title}
                 className="w-full h-52 object-cover"
               />
@@ -71,11 +58,11 @@ const AllBlog = () => {
                 <h2 className="text-xl font-semibold text-gray-800 mb-1">
                   {blog.title}
                 </h2>
-                <p className="text-sm text-gray-500 mb-3">✍️ {blog.author}</p>
+                <p className="text-sm text-gray-500 mb-3">✍️ {blog.authorName || ''}</p>
                 <p className="text-gray-600 text-sm leading-relaxed">
-                  {blog.description.length > 120
-                    ? blog.description.slice(0, 120) + "..."
-                    : blog.description}
+                  {blog.content.length > 120
+                    ? blog.content.slice(0, 120) + "..."
+                    : blog.content}
                 </p>
                 <div className="mt-5 flex justify-between">
                   <button className="px-4 py-2 text-sm rounded-md bg-blue-500 text-white hover:bg-blue-600 transition-all">
