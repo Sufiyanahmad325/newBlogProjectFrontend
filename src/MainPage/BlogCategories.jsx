@@ -1,5 +1,7 @@
 // BlogCategories.jsx
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { BlogContext } from "../App";
+import { data } from "react-router-dom";
 
 const categories = [
   "Technology",
@@ -15,78 +17,96 @@ const categories = [
   "Music",
 ];
 
-const blogs = {
-  Technology: [
-    {
-      id: 1,
-      title: "Travel",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      image: "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg",
-      date: "May 2019",
-    },
-    {
-      id: 2,
-      title: "Tostion",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      image: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg",
-      date: "May 2012",
-    },
-    {
-      id: 3,
-      title: "Craule",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      image: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg",
-      date: "May 2019",
-    },
-    {
-      id: 4,
-      title: "Mel Tam",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      image: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
-      date: "May 2017",
-    },
-    {
-      id: 5,
-      title: "Tahe Hone",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      image: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
-      date: "May 2018",
-    },
-    {
-      id: 6,
-      title: "Mally Hies",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      image: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg",
-      date: "May 2017",
-    },
-    {
-      id: 7,
-      title: "Beknes",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      image: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
-      date: "May 2017",
-    },
-    {
-      id: 8,
-      title: "Ahetton",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      image: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
-      date: "May 2018",
-    },
-  ],
-  Travel: [
-    {
-      id: 1,
-      title: "Beach Vibes",
-      description: "Explore the most beautiful beaches in the world.",
-      image: "https://images.pexels.com/photos/457882/pexels-photo-457882.jpeg",
-      date: "July 2020",
-    },
-  ],
-};
+// const blogs = {
+//   Technology: [
+//     {
+//       id: 1,
+//       title: "Travel",
+//       description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+//       image: "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg",
+//       date: "May 2019",
+//     },
+//     {
+//       id: 2,
+//       title: "Tostion",
+//       description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+//       image: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg",
+//       date: "May 2012",
+//     },
+//     {
+//       id: 3,
+//       title: "Craule",
+//       description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+//       image: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg",
+//       date: "May 2019",
+//     },
+//     {
+//       id: 4,
+//       title: "Mel Tam",
+//       description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+//       image: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
+//       date: "May 2017",
+//     },
+//     {
+//       id: 5,
+//       title: "Tahe Hone",
+//       description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+//       image: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
+//       date: "May 2018",
+//     },
+//     {
+//       id: 6,
+//       title: "Mally Hies",
+//       description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+//       image: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg",
+//       date: "May 2017",
+//     },
+//     {
+//       id: 7,
+//       title: "Beknes",
+//       description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+//       image: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
+//       date: "May 2017",
+//     },
+//     {
+//       id: 8,
+//       title: "Ahetton",
+//       description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+//       image: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
+//       date: "May 2018",
+//     },
+//   ],
+//   Travel: [
+//     {
+//       id: 1,
+//       title: "Beach Vibes",
+//       description: "Explore the most beautiful beaches in the world.",
+//       image: "https://images.pexels.com/photos/457882/pexels-photo-457882.jpeg",
+//       date: "July 2020",
+//     },
+//   ],
+
+
+
+// };
 
 const BlogCategories = () => {
   const [selectedCategory, setSelectedCategory] = useState("Technology");
+  const [filtredData, setFiltredData] = useState([])
+  const {allBlogPost} = useContext(BlogContext)
+
+  useEffect(() => {
+    if(!allBlogPost) return;
+    const data = allBlogPost.filter((blog) => blog.category?.toLowerCase() === selectedCategory.toLowerCase());    
+    setFiltredData(data)
+  }, [selectedCategory, allBlogPost]);
+  
+
+
+
+
+
+  console.log(allBlogPost)
 
   return (
     <div className="flex max-w-7xl mx-auto mt-10 gap-6">
@@ -102,7 +122,7 @@ const BlogCategories = () => {
                   ? "bg-blue-500 text-white"
                   : "hover:bg-gray-100"
               }`}
-              onClick={() => setSelectedCategory(cat)}
+              onClick={() => setSelectedCategory(cat.toLowerCase())}
             >
               {cat}
             </li>
@@ -114,24 +134,24 @@ const BlogCategories = () => {
       <div className="flex-1 ">
         <h1 className="text-3xl font-bold mb-6">{selectedCategory}</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {blogs[selectedCategory]?.map((blog) => (
+          {filtredData?.map((blog) => (
             <div
               key={blog.id}
               className="bg-white rounded-xl shadow-md overflow-hidden"
             >
               <img
-                src={blog.image}
+                src={blog.blogImage}
                 alt={blog.title}
                 className="w-full h-40 object-cover"
               />
               <div className="p-4">
                 <h2 className="text-lg font-semibold">{blog.title}</h2>
                 <p className="text-gray-600 text-sm mt-2">
-                  {blog.description.length > 80
-                    ? blog.description.slice(0, 80) + "..."
-                    : blog.description}
+                  {blog.content.length > 80
+                    ? blog.content.slice(0, 80) + "..."
+                    : blog.content}
                 </p>
-                <p className="text-xs text-gray-400 mt-2">{blog.date}</p>
+                <p className="text-xs text-gray-400 mt-2">{blog.date }</p>
               </div>
             </div>
           )) || (
