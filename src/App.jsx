@@ -49,19 +49,19 @@ function App() {
 
 
 
-  const uplodeBlog = async (title, content, category, imageAdress) => {
+  const uplodeBlog = async (formData) => {
     const res = await axios.post("http://localhost:8000/api/v1/users/uploadBlog",
-      { title, content, category, blogImage: imageAdress },
+       formData ,
       {
-        headers: { 'Authorization': `Bearer ${accessToken}` },
+        headers: { 'Authorization': `Bearer ${accessToken}` , 'Content-Type': 'multipart/form-data' },
         withCredentials: true
       }
     )
 
     if (res.data.success) {
-      // setAllBlogPost([...allBlogPost, res.data.data])
-      console.log(res.data.data)
       alert("Blog uploded successfully")
+      setAllBlogPost([...allBlogPost, res.data.data])
+      setUserAllBlog([...userAllBlog , res.data.data])
       return res
     }
 
@@ -73,7 +73,7 @@ function App() {
   }
 
   
-
+// restore user from cookie
  useEffect(() => {
   const fetchUserData = async () => {
     try {
@@ -99,7 +99,7 @@ function App() {
 
 
 
-
+// filter user specific blogs
 useEffect(() => {
   const userBlog = allBlogPost?.filter((blog) => blog.author === userDetails?._id) || [];
   setUserAllBlog(userBlog)
