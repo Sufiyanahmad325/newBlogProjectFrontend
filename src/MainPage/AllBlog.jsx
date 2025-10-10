@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { BlogContext } from "../App";
+import { useNavigate } from "react-router-dom";
 
 
 const AllBlog = () => {
@@ -8,6 +9,8 @@ const AllBlog = () => {
   const [searchBlog , setSearchBlog ] = useState([])
 
     const {allBlogPost} = useContext(BlogContext)
+    const navigate = useNavigate();
+
 
     useEffect(()=>{
       if(allBlogPost && searchTerm){
@@ -46,6 +49,7 @@ const AllBlog = () => {
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {searchBlog?.map((blog) => (
             <div
+            onClick={()=> navigate(`/blogDetails/${blog._id}`)}
               key={blog.id}
               className="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden hover:-translate-y-3"
             >
@@ -68,9 +72,7 @@ const AllBlog = () => {
                   <button className="px-4 py-2 text-sm rounded-md bg-blue-500 text-white hover:bg-blue-600 transition-all">
                     Read More
                   </button>
-                  <button className="px-4 py-2 text-sm rounded-md bg-red-500 text-white hover:bg-red-600 transition-all">
-                    ❤️ Like
-                  </button>
+                 
                 </div>
               </div>
             </div>
