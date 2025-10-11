@@ -51,9 +51,9 @@ function App() {
 
   const uplodeBlog = async (formData) => {
     const res = await axios.post("http://localhost:8000/api/v1/users/uploadBlog",
-       formData ,
+      formData,
       {
-        headers: { 'Authorization': `Bearer ${accessToken}` , 'Content-Type': 'multipart/form-data' },
+        headers: { 'Authorization': `Bearer ${accessToken}`, 'Content-Type': 'multipart/form-data' },
         withCredentials: true
       }
     )
@@ -61,7 +61,7 @@ function App() {
     if (res.data.success) {
       alert("Blog uploded successfully")
       setAllBlogPost([...allBlogPost, res.data.data])
-      setUserAllBlog([...userAllBlog , res.data.data])
+      setUserAllBlog([...userAllBlog, res.data.data])
       return res
     }
 
@@ -72,45 +72,90 @@ function App() {
 
   }
 
-  
-// restore user from cookie
- useEffect(() => {
-  const fetchUserData = async () => {
-    try {
-      const res = await axios.get('http://localhost:8000/api/v1/users/current-user', {
-        withCredentials: true, 
-      });
 
-      if (res.data.success) {
-        if(userDetails == null ){
-          setUserDetails(res.data.data.user);
-        }
-        setAllBlogPost(res.data.data.userBlog || []);
-        console.log("✅ User restored from cookie:", res.data.data.user);
+
+  const updateProfileDetails = async (formData) => {
+    console.log('form data', formData)
+    let res = await axios.post("http://localhost:8000/api/v1/users/update-user-profile",
+      formData,
+      {
+        headers: { 'Authorization': `Bearer ${accessToken}`, "Content-Type": "multipart/form-data" },
+        withCredentials: true
       }
-    } catch (err) {
-      console.log("Error fetching user:", err);
-      removeCookie("accessToken", { path: "/" });
+
+    )
+
+    if (res.data.success) {
+      setUserDetails(res.data.data)
+      console.log(res.data.data)
+      alert('apdated successfully')
+    }
+    else {
+      alert("Failed to update profile")
+    }
+
+  }
+
+
+  const LikeBlog = async (blogId) => {
+    let res = await axios.post(
+      "http://localhost:8000/api/v1/users/like-blog",
+      { blogId }, // ✅ sirf id pass ho rahi hai
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+        withCredentials: true,
+      }
+    );
+
+    if (res.data.success) {
+      // Update the specific blog's likes in allBlogPost state
+      setAllBlogPost((prevBlogs) =>
+        prevBlogs.map((blog) =>
+          blog._id === blogId ? { ...blog, likes: res.data.data.likes } : blog
+        )
+      );
+      console.log("Liked successfully:", res);
     }
   };
 
-  fetchUserData();
-}, [userDetails , accessToken]); // 👈 sirf ek baar page load hone par chale
 
 
 
-// filter user specific blogs
-useEffect(() => {
-  const userBlog = allBlogPost?.filter((blog) => blog.author === userDetails?._id) || [];
-  setUserAllBlog(userBlog)
-  console.log(userBlog)
-}, [userDetails, allBlogPost]);
+  // restore user from cookie
+  useEffect(() => {
+    const fetchUserData = async () => {
+      console.log("userDetails in useEffect", userDetails)
+      try {
+        const res = await axios.get('http://localhost:8000/api/v1/users/current-user-allUserBlog', {
+          withCredentials: true,
+        });
+
+        if (res.data.success) {
+          if (userDetails == null) {
+            setUserDetails(res.data.data.user);
+          }
+          setAllBlogPost(res.data.data.allUserBlog || []);
+          console.log("✅ User restored from cookie:", res.data.data.user);
+        }
+      } catch (err) {
+        console.log("Error fetching user:", err);
+        removeCookie("accessToken", { path: "/" });
+      }
+    };
+
+    fetchUserData();
+  }, [userDetails, accessToken]); // 👈 sirf ek baar page load hone par chale
 
 
 
+  // filter user specific blogs
+  useEffect(() => {
+    const userBlog = allBlogPost?.filter((blog) => blog.author === userDetails?._id) || [];
+    setUserAllBlog(userBlog)
+  }, [userDetails, allBlogPost]);
 
   return (
-    <BlogContext.Provider value={{ openLoingForm, setOpenLoingForm, setSignUp, signUp, userDetails, setUserDetails, handleLonginForm, allBlogPost, uplodeBlog ,userAllBlog  , setUserAllBlog}}>
+    <BlogContext.Provider value={{ openLoingForm, setOpenLoingForm, setSignUp, signUp, userDetails, setUserDetails, handleLonginForm, allBlogPost, uplodeBlog, userAllBlog, setUserAllBlog, updateProfileDetails, LikeBlog }}>
       <div className="">
         <Header />
         <Outlet />
