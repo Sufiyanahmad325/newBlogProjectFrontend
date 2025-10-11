@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { BlogContext } from "../App";
+import { Link } from "react-router-dom";
 
 
 
@@ -10,16 +11,13 @@ export default function ProfilePage() {
   const [title, settitle] = useState('')
   const [content, setContent] = useState('')
   const [category, setCategory] = useState('')
-  const [imageAdress, setImage] = useState(null)
+  const [imageFile, setImageFile] = useState(null)
 
   // access of context
-  const { uplodeBlog } = useContext(BlogContext)
+  const { uplodeBlog ,userAllBlog  , userDetails} = useContext(BlogContext)
 
   // Add Blog Form open/close state
   const [isAddBlogOpen, setisAddBlogOpen] = useState(false)
-
-
-
 
 
 
@@ -39,18 +37,23 @@ export default function ProfilePage() {
 
   const handleAddBlog = () => {
 
-    if (!title || !content || !category || !imageAdress) {
+    if (!title || !content || !category || !imageFile) {
       alert("Please fill all the fields")
       return
     }
 
-    uplodeBlog(title, content, category, imageAdress)
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("category", category);
+    formData.append("blogImage", imageFile);
+     uplodeBlog(formData)
     .then((res) => {
       if(res.data.success)
       settitle('')
       setContent('')
       setCategory('')
-      setImage(null)
+      setImageFile(null)
     })
 
     
@@ -69,20 +72,20 @@ export default function ProfilePage() {
         <div className="w-full md:w-1/3 bg-white rounded-2xl shadow-lg p-6">
           <div className="flex flex-col items-center">
             <img
-              src="https://i.pravatar.cc/200"
+              src={userDetails?.avatar || "https://i.ibb.co/2NfG6kK/avatar.png"}
               alt="Profile"
               className="w-28 h-28 rounded-full object-cover mb-4"
             />
-            <h2 className="text-2xl font-bold">Sufiyan Ahmad</h2>
-            <p className="text-gray-500 text-sm mb-3">Frontend Developer | Blogger</p>
+            <h2 className="text-2xl font-bold">{userDetails?.fullName || 'Name'}</h2>
+            <p className="text-gray-500 text-sm mb-3">{userDetails?.email || userDetails?.username}</p>
 
             {/* Blog Count */}
             <div className="flex space-x-6 text-gray-600 my-4">
-              <span>✍️ {blogs.length} Blogs</span>
+              <span>✍️ {userAllBlog?.length} Blogs</span>
             </div>
 
             <p className="text-center text-gray-600 text-sm">
-              Passionate about building clean UIs with React.js and sharing coding knowledge.
+             {userDetails?.bio || "Frontend Developer skilled in React.js, Tailwind CSS, and building user-friendly web apps."}
             </p>
 
             {/* Buttons: Add Blog + Edit Profile */}
@@ -92,9 +95,9 @@ export default function ProfilePage() {
                 className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700">
                 ➕ Add Blog
               </button>
-              <button className="bg-gray-200 text-gray-700 px-5 py-2 rounded-lg hover:bg-gray-300">
+              <Link to={'/biopage'} className="bg-gray-200 text-gray-700 px-5 py-2 rounded-lg hover:bg-gray-300">
                 ✏️ Edit Profile
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -108,9 +111,9 @@ export default function ProfilePage() {
           {/* 👇 Fixed Height + Scroll Only in Blog Section */}
           <div className="h-[500px] overflow-y-scroll scroll-smooth pr-2">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {blogs.map((blog) => (
-                <div key={blog.id} className="bg-white shadow-md rounded-xl overflow-hidden">
-                  <img src={blog.image} alt={blog.title} className="w-full h-40 object-cover" />
+              {userAllBlog?userAllBlog.map((blog) => (
+                <div key={blog._id} className="bg-white shadow-md rounded-xl overflow-hidden">
+                  <img src={blog.blogImage} alt={blog.title} className="w-full h-40 object-cover" />
                   <div className="p-4">
                     <h4 className="font-bold text-lg">{blog.title}</h4>
                     <p className="text-gray-600 text-sm mt-2">{blog.description}</p>
@@ -119,7 +122,9 @@ export default function ProfilePage() {
                     </button>
                   </div>
                 </div>
-              ))}
+              )):(
+                <div> there is not blog </div>
+              )}
             </div>
           </div>
         </div>
@@ -192,7 +197,7 @@ export default function ProfilePage() {
               <div>
                 <label className="block font-medium mb-1">Upload Image</label>
                 <input
-                  onChange={(e) => setImage(e.target.files[0])}
+                  onChange={(e) => setImageFile(e.target.files[0])}
                   type="file"
                   accept="image/*"
                   className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
