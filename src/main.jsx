@@ -9,10 +9,11 @@ import BlogCategories from './MainPage/BlogCategories.jsx'
 import ProfilePage from './MainPage/Profiles.jsx'
 import ReadMore from './ReadMore.jsx'
 import { CookiesProvider } from 'react-cookie'
+import BioPage from './MainPage/BioPage.jsx'
+import BlogDetails from './MainPage/BlogDetails.jsx'
 
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
     <CookiesProvider>
     <BrowserRouter>
       <Routes>
@@ -22,9 +23,10 @@ createRoot(document.getElementById('root')).render(
           <Route path='/categories' element={<BlogCategories/>} />
           <Route path='/profile' element={<ProfilePage/>} />
           <Route path='/readMore' element={<ReadMore/>} />
+          <Route path="/blogDetails/:id" element={<BlogDetails />} />
+        <Route path='biopage' element={<BioPage/>}/>
         </Route>
       </Routes>
     </BrowserRouter>
     </CookiesProvider>
-  </StrictMode>,
 )
