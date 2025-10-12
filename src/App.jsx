@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from 'react'
 import './App.css'
 import Header from './MainPage/Header'
-import { Outlet } from 'react-router-dom'
+import {  Navigate, Outlet, useNavigate } from 'react-router-dom'
 import LoginForm from './MainPage/LoginForm'
 import Signup from './SignUp'
 import { Cookies, useCookies } from 'react-cookie'
@@ -17,6 +17,8 @@ function App() {
   const [allBlogPost, setAllBlogPost] = useState(null)
   const [userAllBlog, setUserAllBlog] = useState()
 
+
+  const navigate = useNavigate()
 
   // cookies
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken'])
@@ -36,6 +38,8 @@ function App() {
         if (res.data.success) {
           setUserDetails(null)
           setUserAllBlog(null)
+          setAllBlogPost(null)
+          navigate('/')
           removeCookie("accessToken", { path: "/" })
           alert(res.data.message)
         }
@@ -88,6 +92,7 @@ function App() {
     if (res.data.success) {
       setUserDetails(res.data.data)
       console.log(res.data.data)
+      navigate('/profile')
       alert('apdated successfully')
     }
     else {
@@ -120,11 +125,51 @@ function App() {
 
 
 
+  const editYourBlog = async(updatedData) => {
+    const res = await axios.post('http://localhost:8000/api/v1/users/edit-blog',
+       updatedData,
+      {
+        headers:{'Authorization': `Bearer ${accessToken}` , 'Content-Type': 'multipart/form-data'},
+        withCredentials: true
+      }
+     )
+      if(res.data.success){
+        console.log(res)
+        let data = allBlogPost?.map(blog=> blog._id == res.data.data._id ? {...blog , ...res.data.data} : blog )
+        setAllBlogPost(data)
+        navigate('/profile')
+  
+      }else{
+        alert('edit/Upate failed')
+      }
+  }
+
+
+
+  const deleteBlog = async(blogId)=>{
+       try {
+         let res = await axios.post('http://localhost:8000/api/v1/users/delete-blog' , 
+           {blogId: blogId},
+           {
+             headers:{'Authorization':`Bearer ${accessToken}` , "Content-Type": "application/json"},
+             withCredentials:true
+           }
+         )
+
+         if(res.data.success){
+          console.log(res.data.data)
+          setAllBlogPost(res.data.data)
+         }
+
+       } catch (error) {
+        console.log(error.message)
+       }
+  }
+
 
   // restore user from cookie
   useEffect(() => {
     const fetchUserData = async () => {
-      console.log("userDetails in useEffect", userDetails)
       try {
         const res = await axios.get('http://localhost:8000/api/v1/users/current-user-allUserBlog', {
           withCredentials: true,
@@ -152,10 +197,11 @@ function App() {
   useEffect(() => {
     const userBlog = allBlogPost?.filter((blog) => blog.author === userDetails?._id) || [];
     setUserAllBlog(userBlog)
-  }, [userDetails, allBlogPost]);
+  }, [userDetails, allBlogPost]);  
+  
 
   return (
-    <BlogContext.Provider value={{ openLoingForm, setOpenLoingForm, setSignUp, signUp, userDetails, setUserDetails, handleLonginForm, allBlogPost, uplodeBlog, userAllBlog, setUserAllBlog, updateProfileDetails, LikeBlog }}>
+    <BlogContext.Provider value={{ openLoingForm, setOpenLoingForm, setSignUp, signUp, userDetails, setUserDetails, handleLonginForm, allBlogPost, uplodeBlog, userAllBlog, setUserAllBlog, updateProfileDetails, LikeBlog ,editYourBlog ,deleteBlog }}>
       <div className="">
         <Header />
         <Outlet />
