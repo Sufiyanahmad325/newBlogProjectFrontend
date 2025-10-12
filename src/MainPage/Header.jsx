@@ -80,7 +80,7 @@ export default function Header() {
           <div
             className="flex items-center space-x-3 pt-4 border-t cursor-pointer"
             onClick={() => {
-              setOpenLoingForm((prev) => !prev);
+              handleLonginForm();
               setMenuOpen(false);
             }}
           >
@@ -89,7 +89,7 @@ export default function Header() {
               alt="profile"
               className="w-10 h-10 rounded-full object-cover"
             />
-            <span className="text-gray-700 font-medium">Logged in</span>
+            <span className="text-gray-700 font-medium">{userDetails != null ? 'Logout' :'Logged in'}</span>
             <button className="text-gray-600 hover:text-black">🔒</button>
           </div>
         </div>
