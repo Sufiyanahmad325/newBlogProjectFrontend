@@ -53,7 +53,7 @@ export default function BlogDetails() {
             />
             <h1 className="text-3xl font-bold mb-2">{blog?.title}</h1>
             <p className="text-gray-500 mb-4">
-                {new Date().toLocaleDateString()} • By{" "}
+            {blog.createdAt?.slice(0, 10)} • By{" "}
                 {blog.authorName || "Unknown"}
             </p>
 

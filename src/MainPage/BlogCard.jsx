@@ -11,7 +11,7 @@ const BlogCards = () => {
   };
 
   return (
-    <div className="container mx-auto px-16 mt-8">
+    <div className="container mx-auto px-16 my-8 ">
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
         {userAllBlog?.map((blog, i) => (
           <div
@@ -39,11 +39,7 @@ const BlogCards = () => {
         ))}
       </div>
 
-      <div className="flex justify-center mt-8">
-        <button className="px-6 py-2 border border-gray-600 rounded-lg hover:bg-gray-100">
-          View All Blogs
-        </button>
-      </div>
+     
     </div>
   );
 };

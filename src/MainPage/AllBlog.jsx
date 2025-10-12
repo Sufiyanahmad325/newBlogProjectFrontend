@@ -5,23 +5,23 @@ import { useNavigate } from "react-router-dom";
 
 const AllBlog = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  
-  const [searchBlog , setSearchBlog ] = useState([])
 
-    const {allBlogPost} = useContext(BlogContext)
-    const navigate = useNavigate();
+  const [searchBlog, setSearchBlog] = useState([])
+
+  const { allBlogPost } = useContext(BlogContext)
+  const navigate = useNavigate();
 
 
-    useEffect(()=>{
-      if(allBlogPost && searchTerm){
-        const filteredBlogs = allBlogPost.filter(blog=>{
-          return blog.title.toLowerCase().includes(searchTerm.toLowerCase())
-        })
-        setSearchBlog(filteredBlogs)
-      }else{
-        setSearchBlog(allBlogPost)
-      }
-    },[searchTerm , allBlogPost])
+  useEffect(() => {
+    if (allBlogPost && searchTerm) {
+      const filteredBlogs = allBlogPost.filter(blog => {
+        return blog.title.toLowerCase().includes(searchTerm.toLowerCase())
+      })
+      setSearchBlog(filteredBlogs)
+    } else {
+      setSearchBlog(allBlogPost)
+    }
+  }, [searchTerm, allBlogPost])
 
 
 
@@ -49,12 +49,12 @@ const AllBlog = () => {
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {searchBlog?.map((blog) => (
             <div
-           
+
               key={blog.id}
               className="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden hover:-translate-y-3"
             >
               <img
-                src={blog.blogImage}
+                src={blog.blogImage || "https://i.ibb.co/2NfG6kK/avatar.png"}
                 alt={blog.title}
                 className="w-full h-52 object-cover"
               />
@@ -62,7 +62,10 @@ const AllBlog = () => {
                 <h2 className="text-xl font-semibold text-gray-800 mb-1">
                   {blog.title}
                 </h2>
-                <p className="text-sm text-gray-500 mb-3">✍️ {blog.authorName || ''}</p>
+                <div className="flex justify-between">
+                  <p className="text-sm text-gray-500 mb-3">✍️ {blog.authorName || 'unknown'}</p>
+                  <p className="text-sm text-gray-500 mb-3">{blog.createdAt?.slice(0, 10)}</p>
+                </div>
                 <p className="text-gray-600 text-sm leading-relaxed">
                   {blog.content.length > 120
                     ? blog.content.slice(0, 120) + "..."
@@ -70,11 +73,11 @@ const AllBlog = () => {
                 </p>
                 <div className="mt-5 flex justify-between">
                   <button
-                   onClick={()=> navigate(`/blogDetails/${blog._id}`)}
-                  className="px-4 py-2 text-sm rounded-md bg-blue-500 text-white hover:bg-blue-600 transition-all">
+                    onClick={() => navigate(`/blogDetails/${blog._id}`)}
+                    className="px-4 py-2 text-sm rounded-md bg-blue-500 text-white hover:bg-blue-600 transition-all">
                     Read More
                   </button>
-                 
+
                 </div>
               </div>
             </div>
