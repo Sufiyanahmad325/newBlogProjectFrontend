@@ -22,7 +22,7 @@ function App() {
 
   // cookies
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken'])
-  const accessToken = cookies.accessToken
+  const accessToken = cookies.accessToken 
 
   async function handleLonginForm() {
 
