@@ -7,6 +7,7 @@ import Signup from './SignUp'
 import { Cookies, useCookies } from 'react-cookie'
 import axios from 'axios'
 
+
 export const BlogContext = createContext()
 function App() {
 
@@ -47,7 +48,8 @@ function App() {
         alert(error.message)
       }
     } else {
-      setOpenLoingForm((prev) => !prev);
+      // setOpenLoingForm((prev) => !prev);
+      navigate('/login')
     }
   }
 
@@ -205,8 +207,8 @@ function App() {
       <div className="">
         <Header />
         <Outlet />
-        <LoginForm />
-        <Signup />
+        {/* <LoginForm />
+        <Signup /> */}
       </div>
     </BlogContext.Provider>
   )
