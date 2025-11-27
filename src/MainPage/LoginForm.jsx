@@ -1,4 +1,5 @@
-import React, { use, useContext, useState } from "react";
+import React, {  useContext, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { BlogContext } from "../App";
 import axios from "axios";
 import { useCookies } from "react-cookie";
@@ -10,7 +11,9 @@ const LoginForm = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const { setOpenLoingForm, openLoingForm, setSignUp, setUserDetails } = useContext(BlogContext)
+  const {setUserDetails } = useContext(BlogContext)
+  const navigate = useNavigate();
+
 
 
 
@@ -26,7 +29,7 @@ const handleSubmit = async (e) => {
       
       if (res.status) {
           console.log(res);
-          setOpenLoingForm(false);
+          navigate('/')
           
         
           const sevenDaysFromNow = new Date();
@@ -48,12 +51,8 @@ const handleSubmit = async (e) => {
 
 
 
-  const hanleOpenSingup = () => {
-    setOpenLoingForm(false)
-    setSignUp(true)
-  }
+ 
 
-  if (!openLoingForm) return null; // agar false ho to render hi mat karo
   
 
   return (
@@ -61,12 +60,11 @@ const handleSubmit = async (e) => {
       <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md relative">
 
         {/* Close Button */}
-        <button
-          onClick={() => setOpenLoingForm(false)}
+        <NavLink to={'/'}
           className="absolute top-3 right-3 text-gray-500 hover:text-black text-xl"
         >
           ✕
-        </button>
+        </NavLink>
 
         {/* Heading */}
         <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
@@ -127,11 +125,11 @@ const handleSubmit = async (e) => {
         {/* Signup Link */}
         <p className="text-center text-sm text-gray-600 mt-6">
           Don’t have an account?{" "}
-          <span
-            onClick={hanleOpenSingup}
+          <NavLink to={'/signUp'}
+            // onClick={hanleOpenSingup}
             className="text-black font-medium hover:underline">
             Sign Up
-          </span>
+          </NavLink>
         </p>
       </div>
     </div>
