@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { BlogContext } from "../App";
 
 export default function Header() {
-  const { openLoingForm, setOpenLoingForm , userDetails ,handleLonginForm } = useContext(BlogContext);
+  const { userDetails ,handleLonginForm } = useContext(BlogContext);
   const [menuOpen, setMenuOpen] = useState(false);
 
   
