@@ -12,6 +12,8 @@ import { CookiesProvider } from 'react-cookie'
 import BioPage from './MainPage/BioPage.jsx'
 import BlogDetails from './MainPage/BlogDetails.jsx'
 import EditBlogForm from './MainPage/EditBlogForm.jsx'
+import LoginForm from './MainPage/LoginForm.jsx'
+import Signup from './SignUp.jsx'
 
 
 createRoot(document.getElementById('root')).render(
@@ -27,6 +29,8 @@ createRoot(document.getElementById('root')).render(
           <Route path="/edit-blog-form/:id" element={<EditBlogForm />} />
           <Route path="/blogDetails/:id" element={<BlogDetails />} />
           <Route path='biopage' element={<BioPage />} />
+          <Route path='/login' element={<LoginForm />} />
+          <Route path='signUp' element={<Signup />} />
         </Route>
       </Routes>
     </BrowserRouter>
