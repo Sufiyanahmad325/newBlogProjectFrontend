@@ -1,9 +1,12 @@
 import React, { useContext, useState } from "react";
 import axios from 'axios'
 import { BlogContext } from "./App";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const { signUp, setSignUp } = useContext(BlogContext);
+
+  const navigate = useNavigate()
 
   const [fullName, setFullName] = useState('')
     const [username, setUsername] = useState('')
@@ -28,16 +31,19 @@ export default function Signup() {
         })
         alert(res.data.message)
         console.log(res.data)
-        setSignUp(false)
+        // setSignUp(false)
+        navigate('/')
+
 
     }
 
 
   function handleSignUpCloseOption(){
-    setSignUp(false)
+    // setSignUp(false)
+    navigate('/')
   }
 
-  if (!signUp) return null;
+  // if (!signUp) return null;
 
   return (
     <div className="fixed inset-0 flex justify-center items-center  bg-opacity-40  z-50">
