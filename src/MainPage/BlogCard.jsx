@@ -20,7 +20,7 @@ const BlogCards = () => {
             className="rounded-xl shadow-md p-4 bg-white hover:shadow-lg transition cursor-pointer"
           >
             <img
-              src={`https://picsum.photos/200/200?random=${i}`}
+              src={blog.blogImage ||` https://picsum.photos/200/200?random=${i}`}
               alt="Blog"
               className="w-full h-40 object-cover rounded-md mb-3"
             />
