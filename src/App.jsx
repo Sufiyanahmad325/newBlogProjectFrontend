@@ -25,6 +25,10 @@ function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken'])
   const accessToken = cookies.accessToken 
 
+
+
+ 
+
   async function handleLonginForm() {
 
     if (userDetails != null) {
@@ -187,6 +191,7 @@ function App() {
       } catch (err) {
         console.log("Error fetching user:", err);
         removeCookie("accessToken", { path: "/" });
+        navigate('/login')
       }
     };
 
@@ -201,6 +206,8 @@ function App() {
     setUserAllBlog(userBlog)
   }, [userDetails, allBlogPost]);  
   
+
+
 
   return (
     <BlogContext.Provider value={{ openLoingForm, setOpenLoingForm, setSignUp, signUp, userDetails, setUserDetails, handleLonginForm, allBlogPost, uplodeBlog, userAllBlog, setUserAllBlog, updateProfileDetails, LikeBlog ,editYourBlog ,deleteBlog }}>
