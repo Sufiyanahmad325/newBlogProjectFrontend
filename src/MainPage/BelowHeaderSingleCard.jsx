@@ -22,9 +22,9 @@ const BelowHeaderSingleCard = () => {
             replace it with your latest or highlighted blog post.
           </p>
           <button className="bg-white text-gray-900 font-semibold px-5 py-2 rounded-md hover:bg-gray-100 transition w-fit">
-          <Link to={'/readMore'} >
-                Read More
-                </Link>
+            <Link to={'/readMore'} >
+              Read More
+            </Link>
           </button>
         </div>
       </div>
