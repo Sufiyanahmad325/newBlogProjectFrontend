@@ -36,8 +36,8 @@ export default function BioPage() {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("name", name);
-    formData.append("fullName", username);
+    formData.append("fullName", name);
+    formData.append("username", username);
     formData.append('bio', bio);
     if (imageFile instanceof File) {
         formData.append("avatar", imageFile);
