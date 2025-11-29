@@ -11,7 +11,7 @@ const LoginForm = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const {setUserDetails } = useContext(BlogContext)
+  const {setUserDetails  , setIsLoading } = useContext(BlogContext)
   const navigate = useNavigate();
 
 
@@ -22,6 +22,7 @@ const LoginForm = () => {
 const handleSubmit = async (e) => {
   try {
       e.preventDefault();
+      setIsLoading(true)
       const res = await axios.post("http://localhost:8000/api/v1/users/login",
           { email: email, password: password },
           { withCredentials: true }
@@ -29,23 +30,26 @@ const handleSubmit = async (e) => {
       
       if (res.status) {
           console.log(res);
-          navigate('/')
+          setIsLoading(false)
           
-        
           const sevenDaysFromNow = new Date();
           sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7); 
           
           setCookie("accessToken", res.data.data.token, { 
-              path: "/", 
-              sameSite: "lax", 
-              secure: false, 
-              expires: sevenDaysFromNow 
+            path: "/", 
+            sameSite: "lax", 
+            secure: false, 
+            expires: sevenDaysFromNow 
           });
           setUserDetails(res.data.data.user);
+          navigate('/')
           // -------------------------------------------------------------
       }
   } catch (error) {
+    setIsLoading(false)
+     setTimeout(() => {
       alert(error.message);
+     }, 500);
   }
 };
 
