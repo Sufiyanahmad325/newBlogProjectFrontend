@@ -6,6 +6,7 @@ import LoginForm from './MainPage/LoginForm'
 import Signup from './SignUp'
 import { Cookies, useCookies } from 'react-cookie'
 import axios from 'axios'
+import LodingPage from './MainPage/LodingPage'
 
 
 export const BlogContext = createContext()
@@ -17,6 +18,7 @@ function App() {
   const [userDetails, setUserDetails] = useState(null)
   const [allBlogPost, setAllBlogPost] = useState(null)
   const [userAllBlog, setUserAllBlog] = useState()
+  const [isLoading, setIsLoading] = useState(false)
 
 
   const navigate = useNavigate()
@@ -60,6 +62,7 @@ function App() {
 
 
   const uplodeBlog = async (formData) => {
+    setIsLoading(true)
     const res = await axios.post("http://localhost:8000/api/v1/users/uploadBlog",
       formData,
       {
@@ -69,15 +72,22 @@ function App() {
     )
 
     if (res.data.success) {
-      alert("Blog uploded successfully")
+      setIsLoading(false)
+      
       setAllBlogPost([...allBlogPost, res.data.data])
       setUserAllBlog([...userAllBlog, res.data.data])
+      setTimeout(() => {
+        alert("Blog uploded successfully")
+      }, 500);
       return res
     }
 
 
     else {
-      alert("Failed to uplode blog")
+      setIsLoading(false)  
+      setTimeout(() => {
+        alert("Failed to uplode blog")
+      }, 500);
     }
 
   }
@@ -210,12 +220,13 @@ function App() {
 
 
   return (
-    <BlogContext.Provider value={{ openLoingForm, setOpenLoingForm, setSignUp, signUp, userDetails, setUserDetails, handleLonginForm, allBlogPost, uplodeBlog, userAllBlog, setUserAllBlog, updateProfileDetails, LikeBlog ,editYourBlog ,deleteBlog }}>
+    <BlogContext.Provider value={{ openLoingForm, setOpenLoingForm, setSignUp, signUp, userDetails, setUserDetails, handleLonginForm, allBlogPost, uplodeBlog, userAllBlog, setUserAllBlog, updateProfileDetails, LikeBlog ,editYourBlog ,deleteBlog ,isLoading , setIsLoading}}>
       <div className="">
         <Header />
         <Outlet />
         {/* <LoginForm />
         <Signup /> */}
+        <LodingPage/>
       </div>
     </BlogContext.Provider>
   )
