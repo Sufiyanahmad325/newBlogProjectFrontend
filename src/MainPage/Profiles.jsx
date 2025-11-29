@@ -12,7 +12,7 @@ export default function ProfilePage() {
   const [imageFile, setImageFile] = useState(null);
 
   // access of context
-  const { uplodeBlog, userAllBlog, userDetails ,deleteBlog } = useContext(BlogContext);
+  const { uplodeBlog, userAllBlog, userDetails, deleteBlog  } = useContext(BlogContext);
 
   // Add Blog Form open/close state
   const [isAddBlogOpen, setisAddBlogOpen] = useState(false);
@@ -47,11 +47,13 @@ export default function ProfilePage() {
         setContent('');
         setCategory('');
         setImageFile(null);
+        setisAddBlogOpen(false);
+
       }
     });
   };
 
-  const deleteThisBlog= async(id)=>{
+  const deleteThisBlog = async (id) => {
     await deleteBlog(id)
   }
 
@@ -121,7 +123,7 @@ export default function ProfilePage() {
                     <div className="p-4">
                       <h4 className="font-bold text-lg">{blog.title}</h4>
                       <p className="text-gray-600 text-sm mt-2">
-                        {blog.content .length > 120 ? blog.content.slice(0, 120) + "..." : blog.content}
+                        {blog.content.length > 120 ? blog.content.slice(0, 120) + "..." : blog.content}
                       </p>
                       <div className="flex justify-between items-center mt-3">
                         <button
@@ -131,14 +133,14 @@ export default function ProfilePage() {
                           Read More →
                         </button>
                         <div className="flex gap-2">
-                          <button 
-                          onClick={() => navigate(`/edit-blog-form/${blog._id}`)}
-                          className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-md text-sm font-medium transition">
+                          <button
+                            onClick={() => navigate(`/edit-blog-form/${blog._id}`)}
+                            className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-md text-sm font-medium transition">
                             ✏️ Edit
                           </button>
                           <button
-                          onClick={()=> deleteThisBlog(blog?._id)}
-                          className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm font-medium transition">
+                            onClick={() => deleteThisBlog(blog?._id)}
+                            className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm font-medium transition">
                             🗑️ Delete
                           </button>
                         </div>
