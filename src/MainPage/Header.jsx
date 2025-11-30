@@ -49,7 +49,7 @@ export default function Header() {
           onClick={() => handleLonginForm() }
         >
           <img
-            src="https://i.pravatar.cc/306"
+            src={userDetails?.avatar ||  "https://i.pravatar.cc/306"}
             alt="profile"
             className="w-10 h-10 rounded-full object-cover"
           />
