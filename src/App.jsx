@@ -81,8 +81,6 @@ function App() {
       }, 500);
       return res
     }
-
-
     else {
       setIsLoading(false)  
       setTimeout(() => {
@@ -96,6 +94,7 @@ function App() {
 
   const updateProfileDetails = async (formData) => {
     console.log('form data', formData)
+    setIsLoading(true)
     let res = await axios.post("http://localhost:8000/api/v1/users/update-user-profile",
       formData,
       {
@@ -106,13 +105,19 @@ function App() {
     )
 
     if (res.data.success) {
+      setIsLoading(false)
       setUserDetails(res.data.data)
       console.log(res.data.data)
       navigate('/profile')
-      alert('apdated successfully')
+      setTimeout(() => {
+        alert('apdated successfully')
+      }, 500);
     }
     else {
+      setIsLoading(false)
+    setTimeout(() => {
       alert("Failed to update profile")
+    }, 500);
     }
 
   }
@@ -142,6 +147,7 @@ function App() {
 
 
   const editYourBlog = async(updatedData) => {
+    setIsLoading(true)
     const res = await axios.post('http://localhost:8000/api/v1/users/edit-blog',
        updatedData,
       {
@@ -153,10 +159,14 @@ function App() {
         console.log(res)
         let data = allBlogPost?.map(blog=> blog._id == res.data.data._id ? {...blog , ...res.data.data} : blog )
         setAllBlogPost(data)
-        navigate('/profile')
+        navigate(-1)
+        setIsLoading(false)
   
       }else{
-        alert('edit/Upate failed')
+        setIsLoading(false)
+        setTimeout(() => {  
+          alert('edit/Update failed')
+        }, 500);
       }
   }
 
