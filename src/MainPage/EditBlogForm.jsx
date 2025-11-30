@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { BlogContext } from "../App";
+
 
 export default function EditBlogForm() {
 
@@ -13,6 +14,8 @@ export default function EditBlogForm() {
   const [isOpen, setIsOpen] = useState(true);
 
   const [currentFindData, setCurrentFindData] = useState()
+
+  const navigator = useNavigate()
 
 
   const { id } = useParams();
@@ -51,7 +54,7 @@ export default function EditBlogForm() {
 
 
 
-  const handleCancel = () => setIsOpen(false);
+  const handleCancel = () => navigator(-1);
 
   if (!isOpen) return null;
 
