@@ -15,6 +15,10 @@ import EditBlogForm from './MainPage/EditBlogForm.jsx'
 import LoginForm from './MainPage/LoginForm.jsx'
 import Signup from './SignUp.jsx'
 import Settings from './MainPage/Settings.jsx'
+import ChangePassword from './MainPage/ChangePassword.jsx'
+import PrivacyPolicy from './MainPage/PrivacyPolicy.jsx'
+import TermsAndConditions from './MainPage/TermsAndConditions.jsx'
+import DeleteAccount from './MainPage/DeleteAccount.jsx'
 
 
 createRoot(document.getElementById('root')).render(
@@ -29,10 +33,17 @@ createRoot(document.getElementById('root')).render(
           <Route path='/readMore' element={<ReadMore />} />
           <Route path="/edit-blog-form/:id" element={<EditBlogForm />} />
           <Route path="/blogDetails/:id" element={<BlogDetails />} />
-          <Route path='biopage' element={<BioPage />} />
+          <Route path='/biopage' element={<BioPage />} />
           <Route path='/login' element={<LoginForm />} />
           <Route path='/signUp' element={<Signup />} />
           <Route path='/settings' element={<Settings />} />
+          <Route path='/biopage' element={<BioPage />} />
+          <Route path='/change-Password' element={<ChangePassword />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-conditions" element={<TermsAndConditions />} />
+          <Route path="/delete-account" element={<DeleteAccount />} />
+
+
         </Route>
       </Routes>
     </BrowserRouter>
