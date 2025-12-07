@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { BlogContext } from "../App";
 import { Link, useNavigate } from "react-router-dom";
+import { IoSettings } from "react-icons/io5";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ export default function ProfilePage() {
   const [imageFile, setImageFile] = useState(null);
 
   // access of context
-  const { uplodeBlog, userAllBlog, userDetails, deleteBlog  } = useContext(BlogContext);
+  const { uplodeBlog, userAllBlog, userDetails, deleteBlog } = useContext(BlogContext);
 
   // Add Blog Form open/close state
   const [isAddBlogOpen, setisAddBlogOpen] = useState(false);
@@ -103,7 +104,18 @@ export default function ProfilePage() {
 
         {/* Right Side Blogs with Scroll */}
         <div className="w-full md:w-2/3">
-          <h3 className="text-xl font-semibold mb-4">My Blogs</h3>
+
+          <div className="flex justify-between items-center mb-6 mr-2.5">
+            <h3 className="text-xl font-semibold">My Blogs</h3>
+            <IoSettings
+              size={26}
+              onClick={() => navigate("/settings")}
+              className="cursor-pointer hover:text-blue-900 transition-transform duration-300 hover:rotate-90"
+              title="Settings"
+            />
+
+          </div>
+
 
           {/* 👇 Fixed Height + Scroll Only in Blog Section */}
           <div className="h-[550px] overflow-y-scroll scroll-smooth pr-2">

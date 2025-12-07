@@ -14,6 +14,7 @@ import BlogDetails from './MainPage/BlogDetails.jsx'
 import EditBlogForm from './MainPage/EditBlogForm.jsx'
 import LoginForm from './MainPage/LoginForm.jsx'
 import Signup from './SignUp.jsx'
+import Settings from './MainPage/Settings.jsx'
 
 
 createRoot(document.getElementById('root')).render(
@@ -30,7 +31,8 @@ createRoot(document.getElementById('root')).render(
           <Route path="/blogDetails/:id" element={<BlogDetails />} />
           <Route path='biopage' element={<BioPage />} />
           <Route path='/login' element={<LoginForm />} />
-          <Route path='signUp' element={<Signup />} />
+          <Route path='/signUp' element={<Signup />} />
+          <Route path='/settings' element={<Settings />} />
         </Route>
       </Routes>
     </BrowserRouter>
