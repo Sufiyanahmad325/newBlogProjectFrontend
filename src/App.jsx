@@ -194,6 +194,7 @@ function App() {
 
 
   const changeAccountPassowrd = async (oldPassword, newPassword) => {
+    setIsLoading(true)
     try {
       const res = await axios.post('http://localhost:8000/api/v1/users/change-password', { oldPassword, newPassword },
         {
@@ -201,12 +202,16 @@ function App() {
           withCredentials: true
         }
       )
-       return res 
+      if (res.data.success) {
+        setIsLoading(false)
+        return res
+      }
     } catch (error) {
-      alert(error.message)
+      setIsLoading(false)
+      setTimeout(() => {
+        alert("Password change failed")
+      }, 500);
     }
-
-    
   }
 
 
