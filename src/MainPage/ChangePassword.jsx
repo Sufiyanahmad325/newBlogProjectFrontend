@@ -29,7 +29,9 @@ export default function ChangePassword() {
     let res = await changeAccountPassowrd(formData.oldPassword, formData.newPassword)
    .then((res)=>{
     if(res.data.success){
-      alert(res.data.message)
+      setTimeout(() => {
+        alert(res.data.message)
+      }, 500);
       navigate(-1)
       // window.history.back()
     }
