@@ -20,7 +20,6 @@ function App() {
   const [userAllBlog, setUserAllBlog] = useState()
   const [isLoading, setIsLoading] = useState(false)
 
-
   const navigate = useNavigate()
 
   // cookies
@@ -215,6 +214,35 @@ function App() {
   }
 
 
+  const deleteAccount =async(password)=>{
+    setIsLoading(true)
+      try {
+        let res = await axios.post('http://localhost:8000/api/v1/users/delete-account',{password},
+          {
+            headers:{'Authorization':`Bearer ${accessToken}` , 'Content-Type':'application/json'},
+            withCredentials:true
+          }
+        )
+
+        if(res.data.success){
+          setIsLoading(false)
+          setUserDetails(null)
+          setUserAllBlog(null)
+          setAllBlogPost(null)
+          navigate('/')
+          removeCookie("accessToken", { path: "/" })
+          alert(res.data.message)
+          return res
+        }
+      } catch (error) {
+        setIsLoading(false)
+        setTimeout(() => {
+          alert(error.message)
+          console.log(error.message)
+        }, 500);
+      }
+  }
+
   // restore user from cookie
   useEffect(() => {
     const fetchUserData = async () => {
@@ -252,7 +280,7 @@ function App() {
 
 
   return (
-    <BlogContext.Provider value={{ openLoingForm, setOpenLoingForm, setSignUp, signUp, userDetails, setUserDetails, handleLonginForm, allBlogPost, uplodeBlog, userAllBlog, setUserAllBlog, updateProfileDetails, LikeBlog, editYourBlog, deleteBlog, isLoading, setIsLoading, changeAccountPassowrd }}>
+    <BlogContext.Provider value={{ openLoingForm, setOpenLoingForm, setSignUp, signUp, userDetails, setUserDetails, handleLonginForm, allBlogPost, uplodeBlog, userAllBlog, setUserAllBlog, updateProfileDetails, LikeBlog, editYourBlog, deleteBlog, isLoading, setIsLoading, changeAccountPassowrd ,deleteAccount }}>
       <div className="">
         <Header />
         <Outlet />
