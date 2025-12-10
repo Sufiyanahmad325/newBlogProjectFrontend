@@ -121,7 +121,7 @@ export default function ProfilePage() {
           <div className="h-[550px] overflow-y-scroll scroll-smooth pr-2">
             {/* Cards Container */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 ">
-              {userAllBlog ? (
+              {userAllBlog.length > 0 ? (
                 userAllBlog.map((blog) => (
                   <div
                     key={blog._id}
@@ -161,7 +161,7 @@ export default function ProfilePage() {
                   </div>
                 ))
               ) : (
-                <div>There are no blogs</div>
+                <div className="flex justify-center">There are no blogs</div>
               )}
             </div>
           </div>
