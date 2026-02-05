@@ -9,8 +9,8 @@ export default function Header() {
   
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
-      <div className="container mx-auto px-4 md:px-16 py-4 flex items-center justify-between">
+    <header className="sm:h-[10vh] bg-white shadow-sm sticky top-0 z-50">
+      <div className="container mx-auto px-4 sm:px-16 py-4 flex items-center justify-between">
 
         <div className="text-2xl font-bold">
           <Link to="/">BLOG</Link>
