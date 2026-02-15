@@ -48,7 +48,7 @@ export default function BioPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 flex items-center justify-center px-4 py-10">
+    <div className="sm:h-[90vh] from-blue-50 to-gray-100 flex items-center justify-center px-4 mt-10">
       <form
         onSubmit={handleSubmit}
         className="bg-white rounded-2xl shadow-lg w-full max-w-lg p-8"
@@ -77,7 +77,7 @@ export default function BioPage() {
         </div>
 
         {/* Name */}
-        <div className="mb-4">
+        <div className="mb-2">
           <label className="block text-gray-700 font-medium mb-1">Full Name</label>
           <input
             type="text"
@@ -89,7 +89,7 @@ export default function BioPage() {
         </div>
 
         {/* Username */}
-        <div className="mb-4">
+        <div className="mb-2">
           <label className="block text-gray-700 font-medium mb-1">Username</label>
           <input
             type="text"
@@ -101,7 +101,7 @@ export default function BioPage() {
         </div>
 
         {/* Email */}
-        <div className="mb-4">
+        <div className="mb-2">
           <label className="block text-gray-700 font-medium mb-1">Email</label>
           <input
             disabled
@@ -113,7 +113,7 @@ export default function BioPage() {
         </div>
 
         {/* Bio */}
-        <div className="mb-5">
+        <div className="mb-2">
           <label className="block text-gray-700 font-medium mb-1">Bio</label>
           <textarea
             name="bio"
