@@ -33,9 +33,9 @@ const BlogCategories = () => {
   }, [selectedCategory, allBlogPost]);
 
   return (
-    <div className="flex flex-col md:flex-row max-w-7xl mx-auto mt-8 gap-6 px-4">
+    <div className="flex flex-col sm:max-h-[90vh] sm:flex-row max-w-7xl mx-auto pt-2 gap-6 px-4">
       {/* Sidebar */}
-      <div className="w-full md:w-1/4 bg-white rounded-lg shadow p-4">
+      <div className="w-full sm:w-1/4 bg-white rounded-lg shadow p-4">
         <h2 className="text-lg font-semibold mb-3">Categories</h2>
         <ul className="space-y-1">
           {categories.map((cat) => (
