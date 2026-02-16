@@ -19,6 +19,7 @@ import ChangePassword from './MainPage/ChangePassword.jsx'
 import PrivacyPolicy from './MainPage/PrivacyPolicy.jsx'
 import TermsAndConditions from './MainPage/TermsAndConditions.jsx'
 import DeleteAccount from './MainPage/DeleteAccount.jsx'
+import AddBlogByUser from './MainPage/AddBlogByUser.jsx'
 
 
 createRoot(document.getElementById('root')).render(
@@ -42,6 +43,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-conditions" element={<TermsAndConditions />} />
           <Route path="/delete-account" element={<DeleteAccount />} />
+          <Route path="/add-blog" element={<AddBlogByUser />} />
 
 
         </Route>
