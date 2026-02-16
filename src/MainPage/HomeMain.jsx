@@ -1,7 +1,10 @@
+import React from "react";
+import { NavLink } from "react-router-dom";
+
 const HomeMain = () => {
     return (
         <div
-            className="h-screen sm:min-h-[90vh] text-white flex items-center bg-cover bg-center relative"
+            className="h-screen sm:h-[90vh] text-white flex items-center bg-cover bg-center relative"
             style={{
                 backgroundImage:
                     "url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee')",
@@ -27,19 +30,19 @@ const HomeMain = () => {
                             science, art, books, movies and more — all in one place.
                         </p>
 
-                        <button
+                        <NavLink to="/all-blog"
                             className="group mt-12 inline-flex items-center gap-3
-                         border border-white/70 px-8 py-3 text-sm tracking-wide
+                         border border-white/70 px-8 py-3 text-sm tracking-wide rounded-md
                          hover:bg-white hover:text-black transition-all duration-300"
                         >
                             Start Reading
                             <span className="group-hover:translate-x-1 transition-transform">
                                 →
                             </span>
-                        </button>
+                        </NavLink>
                     </div>
 
-                   
+
 
                 </div>
             </section>
