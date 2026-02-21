@@ -63,7 +63,7 @@ const AllBlog = () => {
                   {blog.title}
                 </h2>
                 <div className="flex justify-between">
-                  <p className="text-sm text-gray-500 mb-3">✍️ {blog.authorName || 'unknown'}</p>
+                  <p className="text-sm text-gray-500 mb-3">✍️ {blog?.author?.fullName || 'unknown'}</p>
                   <p className="text-sm text-gray-500 mb-3">{blog.createdAt?.slice(0, 10)}</p>
                 </div>
                 <p className="text-gray-600 text-sm leading-relaxed">
