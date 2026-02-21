@@ -26,10 +26,6 @@ function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken'])
   const accessToken = cookies.accessToken
 
-
-
-
-
   async function handleLonginForm() {
 
     if (userDetails != null) {
@@ -46,7 +42,6 @@ function App() {
           setUserAllBlog(null)
           setAllBlogPost(null)
           navigate('/')
-          removeCookie("accessToken", { path: "/" })
           alert(res.data.message)
         }
       } catch (error) {
@@ -252,27 +247,27 @@ function App() {
         });
 
         if (res.data.success) {
+          console.log('new data is => ' , res)
           if (userDetails == null) {
             setUserDetails(res.data.data.user);
           }
           setAllBlogPost(res.data.data.allUserBlog || []);
-          console.log("✅ User restored from cookie:", res.data.data.user);
         }
       } catch (err) {
         console.log("Error fetching user:", err);
-        removeCookie("accessToken", { path: "/" });
         navigate('/login')
       }
     };
 
     fetchUserData();
-  }, [userDetails, accessToken]); // 👈 sirf ek baar page load hone par chale
+  }, [userDetails]); // 👈 sirf ek baar page load hone par chale
 
 
 
   // filter user specific blogs
   useEffect(() => {
-    const userBlog = allBlogPost?.filter((blog) => blog.author === userDetails?._id) || [];
+    const userBlog = allBlogPost?.filter((blog) => blog.author?._id === userDetails?._id) || [];
+    console.log('helele => ',userBlog)
     setUserAllBlog(userBlog)
   }, [userDetails, allBlogPost]);
 
