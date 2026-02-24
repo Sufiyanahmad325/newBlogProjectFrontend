@@ -1,12 +1,12 @@
 import { createContext, useEffect, useState } from 'react'
 import './App.css'
-import Header from './MainPage/Header'
+import Header from './components/Header'
 import { Navigate, Outlet, useNavigate } from 'react-router-dom'
-import LoginForm from './MainPage/LoginForm'
+import LoginForm from './components/LoginForm'
 import Signup from './SignUp'
 import { Cookies, useCookies } from 'react-cookie'
 import axios from 'axios'
-import LodingPage from './MainPage/LodingPage'
+import LodingPage from './components/LodingPage'
 
 
 export const BlogContext = createContext()
@@ -64,12 +64,11 @@ function App() {
         withCredentials: true
       }
     )
-
     if (res.data.success) {
       setIsLoading(false)
 
-      setAllBlogPost([...allBlogPost, res.data.data])
-      setUserAllBlog([...userAllBlog, res.data.data])
+      setAllBlogPost([res.data.data ,...allBlogPost, ])
+      setUserAllBlog([ res.data.data , ...userAllBlog])
       setTimeout(() => {
         alert("Blog uploded successfully")
       }, 500);
@@ -209,33 +208,33 @@ function App() {
   }
 
 
-  const deleteAccount =async(password)=>{
+  const deleteAccount = async (password) => {
     setIsLoading(true)
-      try {
-        let res = await axios.post('http://localhost:8000/api/v1/users/delete-account',{password},
-          {
-            headers:{'Authorization':`Bearer ${accessToken}` , 'Content-Type':'application/json'},
-            withCredentials:true
-          }
-        )
-
-        if(res.data.success){
-          setIsLoading(false)
-          setUserDetails(null)
-          setUserAllBlog(null)
-          setAllBlogPost(null)
-          navigate('/')
-          removeCookie("accessToken", { path: "/" })
-          alert(res.data.message)
-          return res
+    try {
+      let res = await axios.post('http://localhost:8000/api/v1/users/delete-account', { password },
+        {
+          headers: { 'Authorization': `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+          withCredentials: true
         }
-      } catch (error) {
+      )
+
+      if (res.data.success) {
         setIsLoading(false)
-        setTimeout(() => {
-          alert(error.message)
-          console.log(error.message)
-        }, 500);
+        setUserDetails(null)
+        setUserAllBlog(null)
+        setAllBlogPost(null)
+        navigate('/')
+        removeCookie("accessToken", { path: "/" })
+        alert(res.data.message)
+        return res
       }
+    } catch (error) {
+      setIsLoading(false)
+      setTimeout(() => {
+        alert(error.message)
+        console.log(error.message)
+      }, 500);
+    }
   }
 
   // restore user from cookie
@@ -247,7 +246,7 @@ function App() {
         });
 
         if (res.data.success) {
-          console.log('new data is => ' , res)
+          console.log('new data is => ', res)
           if (userDetails == null) {
             setUserDetails(res.data.data.user);
           }
@@ -267,7 +266,6 @@ function App() {
   // filter user specific blogs
   useEffect(() => {
     const userBlog = allBlogPost?.filter((blog) => blog.author?._id === userDetails?._id) || [];
-    console.log('helele => ',userBlog)
     setUserAllBlog(userBlog)
   }, [userDetails, allBlogPost]);
 
@@ -275,7 +273,7 @@ function App() {
 
 
   return (
-    <BlogContext.Provider value={{ openLoingForm, setOpenLoingForm, setSignUp, signUp, userDetails, setUserDetails, handleLonginForm, allBlogPost, uplodeBlog, userAllBlog, setUserAllBlog, updateProfileDetails, LikeBlog, editYourBlog, deleteBlog, isLoading, setIsLoading, changeAccountPassowrd ,deleteAccount }}>
+    <BlogContext.Provider value={{ openLoingForm, setOpenLoingForm, setSignUp, signUp, userDetails, setUserDetails, handleLonginForm, allBlogPost, uplodeBlog, userAllBlog, setUserAllBlog, updateProfileDetails, LikeBlog, editYourBlog, deleteBlog, isLoading, setIsLoading, changeAccountPassowrd, deleteAccount }}>
       <div className="">
         <Header />
         <Outlet />

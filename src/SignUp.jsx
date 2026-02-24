@@ -4,7 +4,7 @@ import { BlogContext } from "./App";
 import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
-  const { signUp, setSignUp } = useContext(BlogContext);
+  // const { signUp, setSignUp } = useContext(BlogContext);
 
   const navigate = useNavigate()
 

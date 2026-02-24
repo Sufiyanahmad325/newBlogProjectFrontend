@@ -1,4 +1,4 @@
-import React, {  useContext, useState } from "react";
+import React, {  useContext, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { BlogContext } from "../App";
 import axios from "axios";
@@ -52,12 +52,29 @@ const handleSubmit = async (e) => {
      }, 500);
   }
 };
-
-
-
- 
-
   
+
+useEffect(()=>{
+  const checkUserLoggedIn = async () => {
+    try {
+      setIsLoading(true)
+      const res = await axios.get("http://localhost:8000/api/v1/users/is-user-logged-in", {
+        headers: { 'Authorization': `Bearer ${cookies.accessToken}` },
+        withCredentials: true
+      }); 
+      if (res.data.success) {
+        setIsLoading(false)
+        setUserDetails(res.data.data.userDetails);
+        navigate('/')
+      }
+    } catch (error) {
+      setIsLoading(false)
+      console.log("User not logged in:", error.message);
+    }
+  };
+  checkUserLoggedIn();
+},[])
+
 
   return (
     <div className="fixed inset-0 flex items-center justify-center  bg-opacity-50 z-50">
