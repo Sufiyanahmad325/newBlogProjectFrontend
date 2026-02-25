@@ -70,7 +70,7 @@ export default function Header() {
 
       {/* Mobile Dropdown Menu */}
       {menuOpen && (
-        <div className="md:hidden bg-white shadow-md border-t px-6 py-4 space-y-4 text-gray-700 font-medium">
+        <div className="sm:hidden flex flex-col justify-center bg-white shadow-md border-t px-6 py-4 space-y-4 text-gray-700 font-medium">
           <NavLink to="/" className={({ isActive }) => isActive ? "text-black font-bold border-b-2 border-black" : "hover:text-black border-b-2 border-transparent hover:border-black"} onClick={() => setMenuOpen(false)}>Home</NavLink>
           <NavLink to="/all-blog" className={({ isActive }) => isActive ? "text-black font-bold border-b-2 border-black" : "hover:text-black border-b-2 border-transparent hover:border-black"} onClick={() => setMenuOpen(false)}>All Blogs</NavLink>
           <NavLink to="/categories" className={({ isActive }) => isActive ? "text-black font-bold border-b-2 border-black" : "hover:text-black border-b-2 border-transparent hover:border-black"} onClick={() => setMenuOpen(false)}>Categories</NavLink>
