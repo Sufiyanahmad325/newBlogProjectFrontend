@@ -7,7 +7,6 @@ import HomeMain from './components/HomeMain.jsx'
 import AllBlog from './components/AllBlog.jsx'
 import BlogCategories from './components/BlogCategories.jsx'
 import ProfilePage from './components/Profiles.jsx'
-import ReadMore from './ReadMore.jsx'
 import { CookiesProvider } from 'react-cookie'
 import BioPage from './components/BioPage.jsx'
 import BlogDetails from './components/BlogDetails.jsx'
@@ -31,7 +30,6 @@ createRoot(document.getElementById('root')).render(
           <Route path='/all-blog' element={<AllBlog />} />
           <Route path='/categories' element={<BlogCategories />} />
           <Route path='/profile' element={<ProfilePage />} />
-          <Route path='/readMore' element={<ReadMore />} />
           <Route path="/edit-blog-form/:id" element={<EditBlogForm />} />
           <Route path="/blogDetails/:id" element={<BlogDetails />} />
           <Route path='/biopage' element={<BioPage />} />
