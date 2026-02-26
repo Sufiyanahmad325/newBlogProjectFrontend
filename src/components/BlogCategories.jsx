@@ -33,16 +33,16 @@ const BlogCategories = () => {
   }, [selectedCategory, allBlogPost]);
 
   return (
-    <div className="flex flex-col sm:max-h-[90vh] sm:flex-row max-w-7xl mx-auto pt-2 gap-6 px-4">
+    <div className="  flex-col sm:flex sm:flex-row sm:max-h-[90vh]  sm:max-w-7xl mx-auto pt-2 gap-6 px-4">
       {/* Sidebar */}
-      <div className="w-full sm:w-1/4 bg-white rounded-lg shadow p-4">
+      <div className=" w-full sm:w-1/4 bg-white rounded-lg shadow p-4">
         <h2 className="text-lg font-semibold mb-3">Categories</h2>
-        <ul className="space-y-1">
+        <ul className=" flex overflow-y-auto sm:space-y-1 sm:flex-col gap-2 ">
           {categories.map((cat) => (
             <li
               key={cat}
               onClick={() => setSelectedCategory(cat.toLowerCase())}
-              className={`cursor-pointer px-3 py-2 rounded ${selectedCategory.toLowerCase() === cat.toLowerCase()
+              className={`rounded-full px-6  cursor-pointer sm:px-3 py-2 sm:rounded ${selectedCategory.toLowerCase() === cat.toLowerCase()
                   ? "bg-blue-500 text-white"
                   : "hover:bg-gray-100"
                 }`}
@@ -55,9 +55,10 @@ const BlogCategories = () => {
 
       {/* Blog Grid */}
       <div className="flex-1">
-        <h1 className="text-2xl font-bold mb-4 capitalize">
+        <h1 className=" mt-6 sm:mt-0 text-2xl font-bold mb-4 capitalize">
           {selectedCategory}
         </h1>
+        <hr className="sm:hidden mb-4" />
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-h-[550px] overflow-y-auto">
           {filteredData.length > 0 ? (
             filteredData.map((blog) => (
