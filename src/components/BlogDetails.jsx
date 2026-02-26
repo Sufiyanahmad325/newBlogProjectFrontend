@@ -6,12 +6,12 @@ import axios from "axios";
 
 export default function BlogDetails() {
     const { id } = useParams();
-    const { LikeBlog, userDetails } = useContext(BlogContext);
+    const { LikeBlog, userDetails , commentOnBlog } = useContext(BlogContext);
 
 
     const [blog, setBlog] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    // const [commentText, setCommentText] = useState('')
+    const [commentText, setCommentText] = useState('')
 
 
 
@@ -30,6 +30,18 @@ export default function BlogDetails() {
     }, [id]);
 
 
+    const postCommentOnTheBlog = async () => {
+        try {
+            const res = await commentOnBlog({blogId: blog._id, commentText: commentText});
+            if (res.data.success) {
+                setBlog(res.data.data)
+                setCommentText('')
+                alert(res.data.message)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    };
 
 
 
@@ -37,7 +49,10 @@ export default function BlogDetails() {
 
     const handleLike = async () => {
         try {
-            await LikeBlog(blog._id);
+           let res =  await LikeBlog(blog._id);
+           if(res.data.success) {
+            setBlog(res.data.data)
+           }
 
         } catch (error) {
             console.log(error)
@@ -75,7 +90,7 @@ export default function BlogDetails() {
             {/* Meta */}
             <div className="flex items-center justify-between text-gray-500 text-sm mb-6">
                 <div className="flex items-center gap-3">
-                    <img src={blog?.author?.avatar} alt="" className="sm:h-12 sm:w-12  rounded-full " />
+                    <img src={blog?.author?.avatar || 'https://i.pravatar.cc/150?img=6'} alt="" className=" h-9 w-9 sm:h-12 sm:w-12  rounded-full " />
                     {new Date(blog.createdAt).toLocaleDateString()} • By{" "}
                     <span className="font-medium text-gray-700">
                         {blog.author?.fullName || "Unknown"}
@@ -120,12 +135,16 @@ export default function BlogDetails() {
                     <div className="flex-1">
                         <textarea
                             placeholder="Write your thoughts..."
+                            value={commentText}
+                            onChange={(e) => setCommentText(e.target.value)}
                             rows="3"
                             className="w-full p-4 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                         />
 
                         <div className="flex justify-end mt-3">
-                            <button className="px-5 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition">
+                            <button
+                                onClick={postCommentOnTheBlog}
+                            className="px-5 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition">
                                 Post Comment
                             </button>
                         </div>
@@ -145,7 +164,7 @@ export default function BlogDetails() {
                         {blog.comments.map((comment, index) => (
                             <div
                                 key={index}
-                                className="flex gap-4 bg-gray-50 p-5 rounded-2xl shadow-sm hover:shadow-md transition"
+                                className="flex gap-4 bg-gray-200 p-5 rounded-2xl shadow-sm hover:shadow-md transition"
                             >
                                 <img
                                     src={comment.user?.avatar || "https://i.pravatar.cc/150?img=3"}
