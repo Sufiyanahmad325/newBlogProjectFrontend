@@ -133,10 +133,25 @@ function App() {
           blog._id === blogId ? { ...blog, likes: res.data.data.likes } : blog
         )
       );
-      console.log("Liked successfully:", res);
+    
     }
+    return res
   };
 
+
+  const commentOnBlog = async (data) => {
+    const { blogId, commentText } = data;
+    try {
+      const res = await axios.post(
+        "http://localhost:8000/api/v1/users/comment-on-blog",
+        { blogId, commentText },
+        {withCredentials: true}
+      );
+      return res 
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
 
   const editYourBlog = async (updatedData) => {
@@ -162,6 +177,7 @@ function App() {
       }, 500);
     }
   }
+  
 
 
 
@@ -273,7 +289,7 @@ function App() {
 
 
   return (
-    <BlogContext.Provider value={{ openLoingForm, setOpenLoingForm, setSignUp, signUp, userDetails, setUserDetails, handleLonginForm, allBlogPost, uplodeBlog, userAllBlog, setUserAllBlog, updateProfileDetails, LikeBlog, editYourBlog, deleteBlog, isLoading, setIsLoading, changeAccountPassowrd, deleteAccount }}>
+    <BlogContext.Provider value={{ openLoingForm, setOpenLoingForm, setSignUp, signUp, userDetails, setUserDetails, handleLonginForm, allBlogPost, uplodeBlog, userAllBlog, setUserAllBlog, updateProfileDetails, LikeBlog, editYourBlog, deleteBlog, isLoading, setIsLoading, changeAccountPassowrd, deleteAccount ,commentOnBlog }}>
       <div className="">
         <Header />
         <Outlet />
