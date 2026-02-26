@@ -9,7 +9,6 @@ import BlogCategories from './components/BlogCategories.jsx'
 import ProfilePage from './components/Profiles.jsx'
 import { CookiesProvider } from 'react-cookie'
 import BioPage from './components/BioPage.jsx'
-import BlogDetails from './components/BlogDetails.jsx'
 import EditBlogForm from './components/EditBlogForm.jsx'
 import LoginForm from './components/LoginForm.jsx'
 import Signup from './SignUp.jsx'
@@ -19,6 +18,7 @@ import PrivacyPolicy from './components/PrivacyPolicy.jsx'
 import TermsAndConditions from './components/TermsAndConditions.jsx'
 import DeleteAccount from './components/DeleteAccount.jsx'
 import AddBlogByUser from './components/AddBlogByUser.jsx'
+import BlogDetails from './Components/BlogDetails.jsx'
 
 
 createRoot(document.getElementById('root')).render(
