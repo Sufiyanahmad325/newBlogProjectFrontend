@@ -1,4 +1,4 @@
-import React, {  useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { BlogContext } from "../App";
 import axios from "axios";
@@ -11,69 +11,69 @@ const LoginForm = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const {setUserDetails  , setIsLoading } = useContext(BlogContext)
+  const { setUserDetails, setIsLoading } = useContext(BlogContext)
   const navigate = useNavigate();
 
 
 
 
- // LoginForm.jsx
+  // LoginForm.jsx
 
-const handleSubmit = async (e) => {
-  try {
+  const handleSubmit = async (e) => {
+    try {
       e.preventDefault();
       setIsLoading(true)
       const res = await axios.post("http://localhost:8000/api/v1/users/login",
-          { email: email, password: password },
-          { withCredentials: true }
+        { email: email, password: password },
+        { withCredentials: true }
       );
-      
-      if (res.status) {
-          console.log(res);
-          setIsLoading(false)
-          
-          const sevenDaysFromNow = new Date();
-          sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7); 
-          
-          setCookie("accessToken", res.data.data.token, { 
-            path: "/", 
-            sameSite: "lax", 
-            secure: false, 
-            expires: sevenDaysFromNow 
-          });
-          setUserDetails(res.data.data.user);
-          navigate('/')
-          // -------------------------------------------------------------
-      }
-  } catch (error) {
-    setIsLoading(false)
-     setTimeout(() => {
-      alert(error.message);
-     }, 500);
-  }
-};
-  
 
-useEffect(()=>{
-  const checkUserLoggedIn = async () => {
-    try {
-      setIsLoading(true)
-      const res = await axios.get("http://localhost:8000/api/v1/users/is-user-logged-in", {
-        headers: { 'Authorization': `Bearer ${cookies.accessToken}` },
-        withCredentials: true
-      }); 
-      if (res.data.success) {
+      if (res.status) {
+        console.log(res);
         setIsLoading(false)
-        setUserDetails(res.data.data.userDetails);
+
+        const sevenDaysFromNow = new Date();
+        sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7);
+
+        setCookie("accessToken", res.data.data.token, {
+          path: "/",
+          sameSite: "lax",
+          secure: false,
+          expires: sevenDaysFromNow
+        });
+        setUserDetails(res.data.data.user);
         navigate('/')
+        // -------------------------------------------------------------
       }
     } catch (error) {
       setIsLoading(false)
-      console.log("User not logged in:", error.message);
+      setTimeout(() => {
+        alert(error.message);
+      }, 500);
     }
   };
-  checkUserLoggedIn();
-},[])
+
+
+  useEffect(() => {
+    const checkUserLoggedIn = async () => {
+      try {
+        setIsLoading(true)
+        const res = await axios.get("http://localhost:8000/api/v1/users/is-user-logged-in", {
+          withCredentials: true
+        });
+        if (res.data.success) {
+          setIsLoading(false)
+          setUserDetails(res.data.data.userDetails);
+          navigate('/')
+        }
+      } catch (error) {
+        setIsLoading(false)
+        navigate('/login')
+        console.log("User not logged in:", error.message);
+      }
+    };
+    checkUserLoggedIn();
+  }, [])
 
 
   return (
